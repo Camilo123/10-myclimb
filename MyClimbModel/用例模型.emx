@@ -185,7 +185,7 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_ZSJwsKGzEeKEXfFT0Yj27Q" name="GPSDataAcquisition">
         <eAnnotations xmi:id="_ZSLl4KGzEeKEXfFT0Yj27Q" source="uml2.diagrams" references="_ZSMM8KGzEeKEXfFT0Yj27Q">
-          <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_ZSMM8KGzEeKEXfFT0Yj27Q" type="Freeform" name="Main">
+          <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_ZSMM8KGzEeKEXfFT0Yj27Q" type="Freeform" name="GPSDataMain">
             <children xmi:type="umlnotation:UMLClassifierShape" xmi:id="_k66RoKG1EeKEXfFT0Yj27Q" element="_PLUPIKGpEeKbJMwlpLmEgg" fontName="微软雅黑" fontHeight="8" fillColor="15912618" transparency="0" lineColor="15912618" lineWidth="1" showStereotype="Label">
               <children xmi:type="notation:DecorationNode" xmi:id="_k68G0KG1EeKEXfFT0Yj27Q" type="ImageCompartment">
                 <layoutConstraint xmi:type="notation:Size" xmi:id="_k68G0aG1EeKEXfFT0Yj27Q" width="1455" height="2381"/>
