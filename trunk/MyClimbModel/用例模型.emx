@@ -709,7 +709,7 @@
           </contents>
         </eAnnotations>
         <packagedElement xmi:type="uml:UseCase" xmi:id="_y0wvoKGwEeKEXfFT0Yj27Q" name="显示主界面"/>
-        <packagedElement xmi:type="uml:Actor" xmi:id="_5fYmEKOIEeKHi_zSOqUCUg" name="DIY登山者">
+        <packagedElement xmi:type="uml:Actor" xmi:id="_5fYmEKOIEeKHi_zSOqUCUg" name="DIY爱好者">
           <generalization xmi:id="_Af-7AKOJEeKHi_zSOqUCUg" general="_-JfkwKOIEeKHi_zSOqUCUg"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Actor" xmi:id="_-JfkwKOIEeKHi_zSOqUCUg" name="登山者"/>
@@ -1563,7 +1563,7 @@
         </ownedEnd>
       </packagedElement>
       <packagedElement xmi:type="uml:Actor" xmi:id="_G7ZfQKOJEeKHi_zSOqUCUg" name="登山者"/>
-      <packagedElement xmi:type="uml:Actor" xmi:id="_I4CyIKOJEeKHi_zSOqUCUg" name="DIY登山者"/>
+      <packagedElement xmi:type="uml:Actor" xmi:id="_I4CyIKOJEeKHi_zSOqUCUg" name="DIY爱好者"/>
     </packagedElement>
     <profileApplication xmi:id="_GTTss6GpEeKbJMwlpLmEgg">
       <eAnnotations xmi:id="_GTTstKGpEeKbJMwlpLmEgg" source="http://www.eclipse.org/uml2/2.0.0/UML">
