@@ -94,7 +94,7 @@
             <children xmi:type="notation:BasicDecorationNode" xmi:id="_ZSUIwKGzEeKEXfFT0Yj27Q" type="Name"/>
             <children xmi:type="notation:BasicDecorationNode" xmi:id="_ZSUIwaGzEeKEXfFT0Yj27Q" type="Parent"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_ZSUv0KGzEeKEXfFT0Yj27Q" type="PackageContents" collapsed="true" canonical="false"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZSRsgaGzEeKEXfFT0Yj27Q" x="10956" y="2508" width="5472" height="2851"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZSRsgaGzEeKEXfFT0Yj27Q" x="10428" y="2508" width="5472" height="2851"/>
           </children>
         </contents>
       </eAnnotations>
