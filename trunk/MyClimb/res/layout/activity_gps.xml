@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gpsbackground2"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="58dp"
+        android:text="南"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white"
+        android:textSize="45sp" />
+
+    <TextView
+        android:id="@+id/tv_longitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_direction"
+        android:layout_marginRight="25dp"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_latitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_direction"
+        android:layout_alignRight="@+id/tv_longitude"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/white" />
+
+   <TextView
+       android:id="@+id/tv_altitudeDiff"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/tv_direction"
+       android:layout_marginLeft="22dp"
+       android:layout_marginTop="15dp"
+       android:layout_toRightOf="@+id/tv_speed"
+       android:text="m/s"
+       android:textAppearance="?android:attr/textAppearanceLarge"
+       android:textColor="@color/white"
+       android:textSize="35sp" />
+
+   <TextView
+       android:id="@+id/tv_speed"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentLeft="true"
+       android:layout_alignTop="@+id/tv_altitudeDiff"
+       android:layout_marginLeft="28dp"
+       android:text="0"
+       android:textAppearance="?android:attr/textAppearanceLarge"
+       android:textColor="@color/white"
+       android:textSize="40sp" />
+
+   <TextView
+       android:id="@+id/tv_time"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBaseline="@+id/tv_altitudeDiff"
+       android:layout_alignBottom="@+id/tv_altitudeDiff"
+       android:layout_alignLeft="@+id/tv_latitude"
+       android:text="00:00"
+       android:textAppearance="?android:attr/textAppearanceLarge"
+       android:textColor="@color/white"
+       android:textSize="35sp" />
+
+   <ImageView
+       android:id="@+id/iv_startAndStop"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/tv_altitudeDiff"
+       android:layout_centerHorizontal="true"
+       android:src="@drawable/starandstop" />
+
+   <TextView
+       android:id="@+id/tv_avgSpeed"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_above="@+id/tv_longitude"
+       android:layout_marginBottom="23dp"
+       android:layout_marginLeft="38dp"
+       android:layout_toRightOf="@+id/tv_altitude"
+       android:text="M"
+       android:textAppearance="?android:attr/textAppearanceLarge"
+       android:textColor="@color/white"
+       android:textSize="60sp" />
+
+   <TextView
+       android:id="@+id/tv_altitude"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignBaseline="@+id/tv_avgSpeed"
+       android:layout_alignBottom="@+id/tv_avgSpeed"
+       android:layout_toRightOf="@+id/tv_direction"
+       android:text="0"
+       android:textAppearance="?android:attr/textAppearanceLarge"
+       android:textColor="@color/white"
+       android:textSize="60sp" />
+
+   <TextView
+       android:id="@+id/tv_startAndStop"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/tv_speed"
+       android:layout_centerHorizontal="true"
+       android:layout_marginTop="30dp"
+       android:text="Start"
+       android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>
