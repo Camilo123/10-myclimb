@@ -5,7 +5,7 @@
     android:background="@drawable/background" >
 
     <TextView
-        android:id="@+id/tv_startAndStop"
+        android:id="@+id/tv_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -15,36 +15,30 @@
         android:textColor="@color/white"
         android:textSize="25sp" />
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/iv_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/imageView2"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical" >
-
-        <ListView
-            android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="236dp" >
-        </ListView>
-    </LinearLayout>
+        android:layout_below="@+id/tv_record"
+        android:layout_marginTop="23dp"
+        android:layout_toLeftOf="@+id/tv_record"
+        android:src="@drawable/resultname" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/tv_startAndStop"
-        android:layout_alignTop="@+id/iv_detailback"
+        android:layout_alignTop="@+id/iv_record"
+        android:layout_toRightOf="@+id/tv_record"
         android:src="@drawable/resulttime" />
 
-    <ImageView
-        android:id="@+id/iv_detailback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_startAndStop"
-        android:layout_below="@+id/tv_startAndStop"
-        android:layout_marginTop="37dp"
-        android:src="@drawable/resultname" />
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="236dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/iv_record"
+        android:layout_marginTop="16dp" >
+    </ListView>
 
 </RelativeLayout>
