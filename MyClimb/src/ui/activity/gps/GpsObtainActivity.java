@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.mysport.ui.R;
 
-import domain.businessService.systemManagement.SystemManagementService;
 
 import ui.activity.ActivityOfAF4Ad;
 import ui.viewModel.ModelErrorInfo;
