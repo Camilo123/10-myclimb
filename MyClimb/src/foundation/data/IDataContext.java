@@ -43,6 +43,14 @@ public interface IDataContext {
 	// 获取符合条件的记录数
 	public abstract <T, ID> long countof(Class<T> dataClass, Class<ID> idClass,
 			PreparedQuery<T> query) throws SQLException;
+	
+	// 按id删除记录
+	public abstract <T, ID, K extends ID> void deleteById(ID id, Class<T> dataClass,
+			Class<K> idClass) throws SQLException;
+	
+	//删除所有记录
+	public abstract <T, ID> void deleteAll(Class<T> dataClass, Class<ID> idClass)
+			throws SQLException ;
 
 	/**
 	 * 通用查询
