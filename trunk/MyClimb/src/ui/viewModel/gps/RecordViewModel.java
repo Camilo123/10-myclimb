@@ -9,6 +9,7 @@ import ui.viewModel.ViewModel;
 public class RecordViewModel extends ViewModel {
 	private String ClimbName;
 	private Date starTime;
+	
 	public String getClimbName() {
 		return ClimbName;
 	}
