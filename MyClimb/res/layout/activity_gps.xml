@@ -114,7 +114,7 @@
 
    
       <Button 
-       android:id="@+id/b_startAndStop"
+       android:id="@+id/bt_startAndStop"
        android:layout_width="130dp"
        android:layout_height="50dp"
        android:text="Start"
@@ -122,7 +122,7 @@
        android:layout_below="@+id/tv_speed"
        android:layout_centerHorizontal="true"
        android:layout_marginTop="20dp"
-       android:background="@drawable/my_button" 
+       android:background="@drawable/startandstop_button" 
        />
  
 
