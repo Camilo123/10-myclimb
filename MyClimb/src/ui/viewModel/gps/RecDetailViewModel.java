@@ -8,24 +8,30 @@ import ui.viewModel.ViewModel;
 
 public class RecDetailViewModel extends ViewModel {
 	private String ClimbName;
-	private Date currentDate;
 	private String altitudeDiff;
 	private String avgSpeed;
-	private Date time;
+	private Date startTime;
+	private Date stopTime;
 	private String longitude;
 	private String latitude;
 	
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public Date getStopTime() {
+		return stopTime;
+	}
+	public void setStopTime(Date stopTime) {
+		this.stopTime = stopTime;
+	}
 	public String getClimbName() {
 		return ClimbName;
 	}
 	public void setClimbName(String climbName) {
 		ClimbName = climbName;
-	}
-	public Date getCurrentDate() {
-		return currentDate;
-	}
-	public void setCurrentDate(Date currentDate) {
-		this.currentDate = currentDate;
 	}
 	public String getAltitudeDiff() {
 		return altitudeDiff;
@@ -38,12 +44,6 @@ public class RecDetailViewModel extends ViewModel {
 	}
 	public void setAvgSpeed(String avgSpeed) {
 		this.avgSpeed = avgSpeed;
-	}
-	public Date getTime() {
-		return time;
-	}
-	public void setTime(Date time) {
-		this.time = time;
 	}
 	public String getLongitude() {
 		return longitude;
