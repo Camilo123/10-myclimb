@@ -40,6 +40,14 @@ public class DataContext implements IDataContext {
 		Dao<T, ID> dao = DaoManager.createDao(connectionSource, dataClass);
 		dao.delete(item);
 	}
+	
+	//删除所有记录
+	public <T, ID> void deleteAll(Class<T> dataClass, Class<ID> idClass)
+			throws SQLException {
+		Dao<T, ID> dao = DaoManager.createDao(connectionSource, dataClass);
+		List<T> list=dao.queryForAll();
+		dao.delete(list);
+	}
 
 	// 按ID删除
 	public <T, ID, K extends ID> void deleteById(ID id, Class<T> dataClass,
@@ -47,7 +55,6 @@ public class DataContext implements IDataContext {
 		Dao<T, ID> dao = DaoManager.createDao(connectionSource, dataClass);
 		dao.deleteById(id);
 	}
-
 	// 更新
 	public <T, ID> void update(T item, Class<T> dataClass, Class<ID> idClass)
 			throws SQLException {
