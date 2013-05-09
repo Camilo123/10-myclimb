@@ -25,7 +25,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	private TextView tv_latitude;
 	private TextView tv_time;
 	private ImageView iv_startAndStop;
-	private Button b_startAndStop;
+	private Button bt_startAndStop;
 	private ImageView iv_record;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	protected void initControlsAndRegEvent() {
 		//获取相应控件id
 		iv_startAndStop = (ImageView) findViewById(R.id.iv_startAndStop);
-		b_startAndStop = (Button)findViewById(R.id.b_startAndStop);
+		bt_startAndStop = (Button)findViewById(R.id.bt_startAndStop);
 		tv_altitude = (TextView) findViewById(R.id.tv_altitude);
 		tv_direction = (TextView) findViewById(R.id.tv_direction);
 		tv_speed = (TextView) findViewById(R.id.tv_speed);
@@ -53,7 +53,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		tv_time = (TextView) findViewById(R.id.tv_time);
 		iv_record = (ImageView) findViewById(R.id.iv_record);
 		
-		b_startAndStop.setOnClickListener(new View.OnClickListener() {
+		bt_startAndStop.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent =new Intent(GpsObtainActivity.this,RecDetailsActivity.class);
