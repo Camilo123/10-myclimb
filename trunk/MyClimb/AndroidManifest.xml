@@ -18,7 +18,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="ui.activity.ActivityOfAF4Ad"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+         
+            >
         </activity>
       
         <receiver android:name="ui.activity.gps.GpsObtainActivity" >
@@ -32,7 +34,9 @@
 
         <activity
             android:name="app.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
