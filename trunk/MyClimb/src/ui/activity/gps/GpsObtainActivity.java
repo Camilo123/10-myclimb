@@ -196,21 +196,21 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	public void updateGpsView(Location newLocation) {
 
 		int altitude;
-		float speed;
+		int speed;
 		double lat;
 		double lon;
-		float dir;
+		int dir;
 		if (newLocation != null) {
 			currentAltitude = altitude = (int)newLocation.getAltitude();
-			speed = newLocation.getSpeed();
+			speed = (int) newLocation.getSpeed();
 			lat = newLocation.getLatitude();
 			lon = newLocation.getLongitude();
-			dir = newLocation.getBearing();
-			tv_altitude.setText(Double.toString(altitude));
-			tv_speed.setText(Float.toString(speed));
+			dir = (int) newLocation.getBearing();
+			tv_altitude.setText(Integer.toString(altitude));
+			tv_speed.setText(Integer.toString(speed));
 			tv_latitude.setText(Double.toString(lat));
 			tv_longitude.setText(Double.toString(lon));
-			tv_direction.setText(Float.toString(dir));
+			tv_direction.setText(Integer.toString(dir));
 		} else {
 			tv_altitude.setText("0");
 			tv_speed.setText("0");
