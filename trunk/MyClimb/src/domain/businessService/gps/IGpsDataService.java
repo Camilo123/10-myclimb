@@ -1,5 +1,7 @@
 package domain.businessService.gps;
 
+import java.util.List;
+
 import domain.businessEntity.gps.ClimbData;
 
 public interface IGpsDataService {
@@ -13,7 +15,7 @@ public interface IGpsDataService {
 	public boolean deleteAll();
 	
 	//获取登山记录
-	public ClimbData getClimbData();
+	public List<ClimbData> getClimbData();
 	
 	//根据climbID获取登山记录
 	public ClimbData getClimbDataById(int climbId);
