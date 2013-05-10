@@ -15,10 +15,15 @@ public class ClimbData {
 	@DatabaseField(canBeNull = false)
 	private String climbName;
 	
-	//平均速度
+	//开始高度
 	@DatabaseField(canBeNull = true)
-	private String avgSpeed;
+	private int startAltitude;
 	
+	//结束高度
+	@DatabaseField(canBeNull = true)
+	private int stopAltitude;
+	
+
 	//开始时间
 	@DatabaseField(canBeNull = true)
 	private Date startTime;
@@ -35,6 +40,19 @@ public class ClimbData {
 	@DatabaseField(canBeNull = true)
 	private String latitude;
 	
+	
+	public int getStartAltitude() {
+		return startAltitude;
+	}
+	public void setStartAltitude(int startAltitude) {
+		this.startAltitude = startAltitude;
+	}
+	public int getStopAltitude() {
+		return stopAltitude;
+	}
+	public void setStopAltitude(int stopAltitude) {
+		this.stopAltitude = stopAltitude;
+	}
 	public int getClimbID() {
 		return climbID;
 	}
@@ -47,12 +65,7 @@ public class ClimbData {
 	public void setClimbName(String climbName) {
 		this.climbName = climbName;
 	}
-	public String getAvgSpeed() {
-		return avgSpeed;
-	}
-	public void setAvgSpeed(String avgSpeed) {
-		this.avgSpeed = avgSpeed;
-	}
+
 	public Date getStartTime() {
 		return startTime;
 	}

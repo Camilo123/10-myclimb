@@ -17,6 +17,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -48,8 +49,12 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	private String cliName;
 	private Chronometer timer;
 	private String startTime;
-	private String StopTime;
+	private String stopTime;
+	private double startAltitude;
+	private double stopAltitude;
 	private SimpleDateFormat sDateFormat;
+	boolean flag = false;
+	private double currentAltitude;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +81,6 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		tv_latitude = (TextView) findViewById(R.id.tv_latitude);
 		iv_record = (ImageView) findViewById(R.id.iv_record);
 		timer = (Chronometer) findViewById(R.id.timer);
-
 		// 定义对话框输入控件
 		editor = new EditText(this);
 		builder = new AlertDialog.Builder(this);
@@ -85,53 +89,79 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		timer.setFormat("%s");
 		// 设置获取时间格式
 		sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		
-		//启动GPS
-		StartGps();
+
+		if (flag == true) {
+			bt_startAndStop.setText("Stop");
+		} else
+			bt_startAndStop.setText("Start");
+
+		// 启动GPS
+		startGps();
 		// 开始和停止按钮监听事件
 		bt_startAndStop.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				builder.setTitle("请输入行程名称");
-				builder.setView(editor);
-				builder.setNegativeButton("取消", new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
-				// 设置对话框
-				builder.setPositiveButton("确认", new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// 获取输入
-						cliName = editor.getText().toString();
-						// 开始计时
-						timer.start();
-						// 获取开始时间
-						startTime = sDateFormat.format(new java.util.Date());
-					}
-				});
-				builder.create().show();
+				if (flag == false) {
+					builder.setTitle("请输入行程名称");
+					builder.setView(editor);
+					builder.setNegativeButton("取消", new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					});
+					// 设置对话框
+					builder.setPositiveButton("确认", new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// 获取输入
+							cliName = editor.getText().toString();
+
+							// 计时器重置
+							timer.setBase(SystemClock.elapsedRealtime());
+							// 开始计时
+							timer.start();
+							// 获取开始时间
+							startTime = sDateFormat
+									.format(new java.util.Date());
+							// 记录开始高度值
+							startAltitude = currentAltitude;
+							flag = true;
+							initControlsAndRegEvent();
+						}
+					});
+					builder.create().show();
+				} else {
+					flag = false;
+					timer.stop();
+					stopTime = sDateFormat.format(new java.util.Date());
+					//记录结束时高度
+					stopAltitude = currentAltitude;
+					initControlsAndRegEvent();
+				}
 			}
-			
+
 		});
 		iv_record.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(GpsObtainActivity.this,
-						RecordActivity.class);
-				startActivity(intent);
+				Toast toast = Toast.makeText(GpsObtainActivity.this, Double.toString(startAltitude),
+						Toast.LENGTH_LONG);
+				toast.show();
+				// Intent intent = new Intent(GpsObtainActivity.this,
+				// RecordActivity.class);
+				// startActivity(intent);
 			}
 		});
 	}
 
 	// 开启GPS功能
-	public void StartGps() {
+	public void startGps() {
 		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Location location = locManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
 		updateGpsView(location);
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000,
 				8, new LocationListener() {
@@ -171,7 +201,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		double lon;
 		float dir;
 		if (newLocation != null) {
-			altitude = (int) newLocation.getAltitude();
+			currentAltitude = altitude = (int)newLocation.getAltitude();
 			speed = newLocation.getSpeed();
 			lat = newLocation.getLatitude();
 			lon = newLocation.getLongitude();

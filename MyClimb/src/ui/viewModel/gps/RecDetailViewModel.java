@@ -8,13 +8,26 @@ import ui.viewModel.ViewModel;
 
 public class RecDetailViewModel extends ViewModel {
 	private String ClimbName;
-	private String altitudeDiff;
-	private String avgSpeed;
+	private int startAltitude;
+	private int stopAltitude;
 	private Date startTime;
 	private Date stopTime;
 	private String longitude;
 	private String latitude;
 	
+	
+	public int getStartAltitude() {
+		return startAltitude;
+	}
+	public void setStartAltitude(int startAltitude) {
+		this.startAltitude = startAltitude;
+	}
+	public int getStopAltitude() {
+		return stopAltitude;
+	}
+	public void setStopAltitude(int stopAltitude) {
+		this.stopAltitude = stopAltitude;
+	}
 	public Date getStartTime() {
 		return startTime;
 	}
@@ -33,18 +46,7 @@ public class RecDetailViewModel extends ViewModel {
 	public void setClimbName(String climbName) {
 		ClimbName = climbName;
 	}
-	public String getAltitudeDiff() {
-		return altitudeDiff;
-	}
-	public void setAltitudeDiff(String altitudeDiff) {
-		this.altitudeDiff = altitudeDiff;
-	}
-	public String getAvgSpeed() {
-		return avgSpeed;
-	}
-	public void setAvgSpeed(String avgSpeed) {
-		this.avgSpeed = avgSpeed;
-	}
+	
 	public String getLongitude() {
 		return longitude;
 	}

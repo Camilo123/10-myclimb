@@ -1,6 +1,7 @@
 package domain.businessService.gps;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 import android.util.Log;
@@ -57,7 +58,7 @@ public class GpsDataService implements IGpsDataService {
 	
 	//获取数据
 	@Override
-	public ClimbData getClimbData() {
+	public List<ClimbData> getClimbData() {
 		// TODO Auto-generated method stub
 		return null;
 	}
