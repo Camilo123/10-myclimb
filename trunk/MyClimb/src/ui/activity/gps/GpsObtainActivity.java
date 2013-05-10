@@ -165,13 +165,13 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	// 动态更新GPS数据
 	public void updateGpsView(Location newLocation) {
 
-		double altitude;
+		int altitude;
 		float speed;
 		double lat;
 		double lon;
 		float dir;
 		if (newLocation != null) {
-			altitude = newLocation.getAltitude();
+			altitude = (int) newLocation.getAltitude();
 			speed = newLocation.getSpeed();
 			lat = newLocation.getLatitude();
 			lon = newLocation.getLongitude();
@@ -186,7 +186,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 			tv_speed.setText("0");
 			tv_latitude.setText("0");
 			tv_longitude.setText("0");
-			tv_direction.setText("0");
+			tv_direction.setText("");
 		}
 	}
 
@@ -199,14 +199,11 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	@Override
 	protected void upDateView(ViewModel aVM) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void processViewModelErrorMsg(List<ModelErrorInfo> errsOfVM,
 			String errMsg) {
 		// TODO Auto-generated method stub
-
 	}
-
 }
