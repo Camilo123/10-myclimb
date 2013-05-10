@@ -19,23 +19,12 @@
         android:textSize="45sp" />
 
     <TextView
-        android:id="@+id/tv_longitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/tv_direction"
-        android:layout_marginRight="25dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/white" />
-
-    <TextView
         android:id="@+id/tv_latitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tv_direction"
         android:layout_alignRight="@+id/tv_longitude"
-        android:text="Large Text"
+        android:text="0"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white" />
 
@@ -64,18 +53,6 @@
        android:textColor="@color/white"
        android:textSize="40sp" />
 
-   <TextView
-       android:id="@+id/tv_time"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_alignBaseline="@+id/tv_altitudeDiff"
-       android:layout_alignBottom="@+id/tv_altitudeDiff"
-       android:layout_alignLeft="@+id/tv_latitude"
-       android:text="00:00"
-       android:textAppearance="?android:attr/textAppearanceLarge"
-       android:textColor="@color/white"
-       android:textSize="35sp" />
-
 
    <TextView
        android:id="@+id/tv_avgSpeed"
@@ -101,16 +78,6 @@
        android:textAppearance="?android:attr/textAppearanceLarge"
        android:textColor="@color/white"
        android:textSize="60sp" />
-   
-   
- 
-   <ImageView
-       android:id="@+id/iv_record"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_above="@+id/tv_avgSpeed"
-       android:layout_toRightOf="@+id/tv_time"
-       android:src="@drawable/record" />
 
    
       <Button 
@@ -124,6 +91,36 @@
        android:layout_marginTop="20dp"
        android:background="@drawable/startandstop_button" 
        />
- 
+
+      <TextView
+          android:id="@+id/tv_longitude"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_above="@+id/tv_latitude"
+          android:layout_alignLeft="@+id/tv_avgSpeed"
+          android:layout_marginLeft="15dp"
+          android:text="0"
+          android:textAppearance="?android:attr/textAppearanceLarge"
+          android:textColor="@color/white" />
+
+      <ImageView
+          android:id="@+id/iv_record"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_above="@+id/tv_avgSpeed"
+          android:layout_alignParentRight="true"
+          android:src="@drawable/record" />
+
+      <Chronometer
+          android:id="@+id/timer"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignBaseline="@+id/tv_altitudeDiff"
+          android:layout_alignBottom="@+id/tv_altitudeDiff"
+          android:layout_marginRight="23dp"
+          android:layout_toLeftOf="@+id/iv_record"
+          android:text="Chronometer"
+          android:textColor="@color/white"
+          android:textSize="35sp" />
 
 </RelativeLayout>
