@@ -3,6 +3,8 @@ package domain.businessService.gps;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.j256.ormlite.stmt.QueryBuilder;
+
 
 import android.util.Log;
 
@@ -67,7 +69,19 @@ public class GpsDataService implements IGpsDataService {
 	@Override
 	public ClimbData getClimbDataById(int climbId) {
 		// TODO Auto-generated method stub
-		return null;
+		try{
+			 ClimbData climbdata = new ClimbData();
+			 climbdata = ctx.queryById(ClimbData.class, int.class, climbId);
+			 return climbdata;
+			 
+		}catch (Exception e) {
+			// TODO: handle exception
+			Log.e(Tag, e.toString());
+		}
+		
+		ClimbData climbdata = new ClimbData();
+		return climbdata;
+	
 	}
 
 }
