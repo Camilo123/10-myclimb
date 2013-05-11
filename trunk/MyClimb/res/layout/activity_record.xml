@@ -25,7 +25,7 @@
         android:src="@drawable/resultname" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/iv_record"

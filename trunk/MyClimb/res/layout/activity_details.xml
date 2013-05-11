@@ -129,7 +129,7 @@
         android:textSize="20sp" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/iv_back"
@@ -166,7 +166,7 @@
         android:id="@+id/tv_recName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/imageView2"
+        android:layout_above="@+id/iv_time"
         android:layout_alignLeft="@+id/tv_Date"
         android:text="Name"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -219,7 +219,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_altitudeDiff"
-        android:layout_toRightOf="@+id/imageView2"
+        android:layout_toRightOf="@+id/iv_time"
         android:text="Average Speed"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white"
@@ -241,7 +241,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/imageView2"
+        android:layout_toRightOf="@+id/iv_time"
         android:text="Altitude Difference"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white"
