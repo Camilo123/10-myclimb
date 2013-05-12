@@ -4,7 +4,7 @@ import java.util.List;
 
 import domain.businessEntity.gps.ClimbData;
 
-public interface IGpsDataService {
+public interface IClimbDataService {
 	//添加登山记录
 	public boolean addClimbData(ClimbData data);
 	

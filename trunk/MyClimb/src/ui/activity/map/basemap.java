@@ -1,4 +1,4 @@
-package com.map;
+package ui.activity.map;
 
 import com.mysport.ui.R;
 import android.os.Bundle;

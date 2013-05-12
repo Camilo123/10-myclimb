@@ -60,7 +60,7 @@ public class MainActivity extends TabActivity {
 		tab2.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				//tabHost.setCurrentTabByTag(TAB_MAP);
-				startActivity(new Intent(MainActivity.this,com.map.basemap.class));
+				startActivity(new Intent(MainActivity.this,ui.activity.map.basemap.class));
 
 			}
 		});

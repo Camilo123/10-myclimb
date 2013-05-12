@@ -12,11 +12,11 @@ import domain.businessEntity.gps.ClimbData;
 import foundation.data.DataContext;
 import foundation.data.IDataContext;
 
-public class GpsDataService implements IGpsDataService {
+public class ClimbDataService implements IClimbDataService {
 	
 	private static String Tag="GpsDataService";
 	private IDataContext ctx=null;
-	public GpsDataService(){
+	public ClimbDataService(){
 		ctx= new DataContext();
 	}
 	
