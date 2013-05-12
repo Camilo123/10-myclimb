@@ -34,6 +34,7 @@
     <string name="title_activity_gps_obtain">GpsObtainActivity</string>
     <string name="title_activity_record">RecordActivity</string>
     <string name="title_activity_rec_details">RecDetailsActivity</string>
+    <string name="title_activity_basemap">地图</string>
     
 
 </resources>

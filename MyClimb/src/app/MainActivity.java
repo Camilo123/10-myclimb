@@ -36,6 +36,7 @@ public class MainActivity extends TabActivity {
 				.setIndicator(TAB_GPS)//设定分页显示的标题
 				.setContent(new Intent(this, ui.activity.gps.GpsObtainActivity.class)));
 		//设定分页所关联的界面
+		//设定分页所关联的界面
 		
 		this.setDefaultTab(0);
 
@@ -51,7 +52,6 @@ public class MainActivity extends TabActivity {
 		View tab1 = findViewById(R.id.tab_gps);
 		tab1.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-
 				tabHost.setCurrentTabByTag(TAB_GPS);
 			}
 		});
@@ -59,7 +59,8 @@ public class MainActivity extends TabActivity {
 		View tab2 = findViewById(R.id.tab_map);
 		tab2.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				tabHost.setCurrentTabByTag(TAB_MAP);
+				//tabHost.setCurrentTabByTag(TAB_MAP);
+				startActivity(new Intent(MainActivity.this,com.map.basemap.class));
 
 			}
 		});
