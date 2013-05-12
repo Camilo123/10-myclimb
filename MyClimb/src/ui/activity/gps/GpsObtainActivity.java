@@ -143,7 +143,6 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 							// 记录开始高度值
 							startAltitude = currentAltitude;
 							flag = true;
-							//writeDataToSqlite();
 							initControlsAndRegEvent();
 						}
 					});
@@ -159,6 +158,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 					stopLon = currentLon;
 					//记录结束是纬度
 					stopLat = currentLat;
+					//writeDataToSqlite();
 					initControlsAndRegEvent();
 				}
 			}
