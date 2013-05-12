@@ -35,6 +35,9 @@ import android.widget.Toast;
 
 import com.mysport.ui.R;
 
+import domain.businessEntity.gps.ClimbData;
+import domain.businessService.gps.IClimbDataService;
+
 /**
  * @author DreamTeam 沈志鹏
  */
@@ -63,6 +66,8 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	private double stopLat;//结束时纬度
 	private double currentLon;//当前经度
 	private double currentLat;//当前纬度
+	private IClimbDataService ClimbDataService;//定义登山数据服务对象
+	private ClimbData climbData;
 	
 
 	@Override
@@ -138,6 +143,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 							// 记录开始高度值
 							startAltitude = currentAltitude;
 							flag = true;
+							//writeDataToSqlite();
 							initControlsAndRegEvent();
 						}
 					});
@@ -293,6 +299,17 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		// 程序暂停时注销监听器
 		mSensorManager.unregisterListener(mSersorEventListener);
 		super.onStop();
+	}
+	//数据写入数据库操作
+	public void writeDataToSqlite(){
+		climbData.setClimbName(cliName);
+		climbData.setLatitude(stopLat);
+		climbData.setLongitude(stopLon);
+		climbData.setStartAltitude(startAltitude);
+		climbData.setStopAltitude(stopAltitude);
+		climbData.setStartTime(startTime);
+		climbData.setStopTime(stopTime);
+		ClimbDataService.addClimbData(climbData);
 	}
 
 	@Override

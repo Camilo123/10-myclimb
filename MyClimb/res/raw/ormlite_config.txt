@@ -1,6 +1,39 @@
 #
-# generated on 2013/05/07 01:58:04
+# generated on 2013/05/12 08:02:57
 #
+# --table-start--
+dataClass=domain.businessEntity.gps.ClimbData
+tableName=T_ClimbData
+# --table-fields-start--
+# --field-start--
+fieldName=climbID
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=climbName
+canBeNull=false
+# --field-end--
+# --field-start--
+fieldName=startAltitude
+# --field-end--
+# --field-start--
+fieldName=stopAltitude
+# --field-end--
+# --field-start--
+fieldName=startTime
+# --field-end--
+# --field-start--
+fieldName=stopTime
+# --field-end--
+# --field-start--
+fieldName=longitude
+# --field-end--
+# --field-start--
+fieldName=latitude
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
 # --table-start--
 dataClass=domain.businessEntity.systemManagement.User
 tableName=T_User
