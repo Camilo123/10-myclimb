@@ -37,6 +37,10 @@ public class MainActivity extends TabActivity {
 				.setContent(new Intent(this, ui.activity.gps.GpsObtainActivity.class)));
 		//设定分页所关联的界面
 		//设定分页所关联的界面
+		this.tabHost.addTab(this.tabHost.newTabSpec(TAB_MAP)//添加一个标识为TAB_GPS的Tab分页	
+				.setIndicator(TAB_MAP)//设定分页显示的标题
+				.setContent(new Intent(this, ui.activity.map.basemap.class)));
+		
 		
 		this.setDefaultTab(0);
 
@@ -59,9 +63,7 @@ public class MainActivity extends TabActivity {
 		View tab2 = findViewById(R.id.tab_map);
 		tab2.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				//tabHost.setCurrentTabByTag(TAB_MAP);
-				startActivity(new Intent(MainActivity.this,ui.activity.map.basemap.class));
-
+				tabHost.setCurrentTabByTag(TAB_MAP);
 			}
 		});
 		View tab3 = findViewById(R.id.tab_weather);
