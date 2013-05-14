@@ -3,6 +3,8 @@ package domain.businessService.gps;
 import java.sql.SQLException;
 import java.util.List;
 
+import ui.viewModel.gps.RecDetailViewModel;
+
 import com.j256.ormlite.stmt.QueryBuilder;
 
 
@@ -15,6 +17,8 @@ import foundation.data.IDataContext;
 public class ClimbDataService implements IClimbDataService {
 	
 	private static String Tag="GpsDataService";
+	
+	private  RecDetailViewModel    viewModel;
 	private IDataContext ctx=null;
 	public ClimbDataService(){
 		ctx= new DataContext();
@@ -67,21 +71,42 @@ public class ClimbDataService implements IClimbDataService {
 	
 	//根据ID获取数据
 	@Override
-	public ClimbData getClimbDataById(int climbId) {
+//	public ClimbData getClimbDataById(int climbId) {
+//		// TODO Auto-generated method stub
+//		try{
+//			 ClimbData climbdata = new ClimbData();
+//			 climbdata = ctx.queryById(ClimbData.class, int.class, climbId);
+//			 return climbdata;
+//			 
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//			Log.e(Tag, e.toString());
+//		}
+//		
+//		ClimbData climbdata = new ClimbData();
+//		return climbdata;
+//	
+//	}
+	
+	
+	public boolean getClimbDataById(int climbId) {
 		// TODO Auto-generated method stub
+		 ClimbData climbdata=null;
 		try{
-			 ClimbData climbdata = new ClimbData();
+		     climbdata = new ClimbData();
 			 climbdata = ctx.queryById(ClimbData.class, int.class, climbId);
-			 return climbdata;
-			 
+				viewModel.setClimbdata(climbdata);
+			//	viewModel.fireOnUpdated();
+				return true;
 		}catch (Exception e) {
 			// TODO: handle exception
 			Log.e(Tag, e.toString());
 		}
 		
-		ClimbData climbdata = new ClimbData();
-		return climbdata;
+		
+		return false;
 	
 	}
+
 
 }
