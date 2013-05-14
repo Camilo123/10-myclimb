@@ -118,7 +118,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 		Double longitude = climbdata.getLongitude();
 		Double latitude = climbdata.getLatitude();
 		
-		int altitudeDiff=(startAltitude+stopAltitude)/2;
+		int altitudeDiff=stopAltitude-startAltitude;
 		
 	
 		 SimpleDateFormat dateformat1=new SimpleDateFormat("yyyy-MM-dd");
