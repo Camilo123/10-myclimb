@@ -3,6 +3,8 @@ package ui.viewModel.gps;
 import java.util.Date;
 import java.util.List;
 
+import domain.businessEntity.gps.ClimbData;
+
 import ui.viewModel.ModelErrorInfo;
 import ui.viewModel.ViewModel;
 
@@ -14,8 +16,15 @@ public class RecDetailViewModel extends ViewModel {
 	private Date stopTime;
 	private String longitude;
 	private String latitude;
+	private ClimbData climbdata;
 	
 	
+	public ClimbData getClimbdata() {
+		return climbdata;
+	}
+	public void setClimbdata(ClimbData climbdata) {
+		this.climbdata = climbdata;
+	}
 	public int getStartAltitude() {
 		return startAltitude;
 	}
