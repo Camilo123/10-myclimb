@@ -70,12 +70,12 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 		tv_lat=(TextView)findViewById(R.id.tv_lat);
 		tv_lon=(TextView)findViewById(R.id.tv_lon);
 		iv_back=(ImageView)findViewById(R.id.bt_startAndStop);
-		iv_back.setOnClickListener(new MyImageViewListener() );
+		iv_back.setOnClickListener(new BackToRecord());
 		
 
 	}
 	
-	class MyImageViewListener implements OnClickListener{
+	class BackToRecord implements OnClickListener{
 		 
 		 
 		 @Override

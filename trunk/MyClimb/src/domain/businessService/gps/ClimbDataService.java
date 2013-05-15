@@ -31,7 +31,6 @@ public class ClimbDataService implements IClimbDataService {
 			ctx.add(data, ClimbData.class, int.class);
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			Log.e(Tag, e.toString());
 		}
 		return false;
