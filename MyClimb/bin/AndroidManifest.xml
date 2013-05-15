@@ -92,10 +92,7 @@
         
     </application>
 
-    <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
-        android:label="Test"
-        android:targetPackage="ui.activity.systemManagement" />
+ 
     
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

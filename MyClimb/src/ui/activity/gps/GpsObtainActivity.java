@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.mysport.ui.R;
 
 import domain.businessEntity.gps.ClimbData;
+import domain.businessService.gps.ClimbDataService;
 import domain.businessService.gps.IClimbDataService;
 
 /**
@@ -66,9 +67,9 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	private double stopLat;//结束时纬度
 	private double currentLon;//当前经度
 	private double currentLat;//当前纬度
-	private IClimbDataService ClimbDataService;//定义登山数据服务对象
-	private ClimbData climbData;
-	
+	private IClimbDataService climbDataService = new ClimbDataService();//定义登山数据服务对象
+	private ClimbData climbData = new ClimbData();
+		
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,6 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_obtain_gps, menu);
 		return true;
 	}
@@ -158,7 +158,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 					stopLon = currentLon;
 					//记录结束是纬度
 					stopLat = currentLat;
-					//writeDataToSqlite();
+					writeDataToSqlite();
 					initControlsAndRegEvent();
 				}
 			}
@@ -309,7 +309,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		climbData.setStopAltitude(stopAltitude);
 		climbData.setStartTime(startTime);
 		climbData.setStopTime(stopTime);
-		ClimbDataService.addClimbData(climbData);
+		climbDataService.addClimbData(climbData);
 	}
 
 	@Override
