@@ -136,23 +136,23 @@
 	               >
 			       <TextView
 			       android:id="@+id/tv_speed"
-			       android:layout_width="80dp"
+			       android:layout_width="85dp"
 			       android:layout_height="match_parent"
-			       android:text="0"
+			       android:text="0.0"
 				   android:gravity="center_vertical|right"
 			       android:textAppearance="?android:attr/textAppearanceLarge"
 			       android:textColor="@color/white"
-			       android:textSize="40sp" />
+			       android:textSize="30sp" />
 			    	
 			     <TextView
 			       android:id="@+id/tv_altitudeDiff"
-			       android:layout_width="75dp"
+			       android:layout_width="70dp"
 			       android:layout_height="match_parent"
 			       android:text="m/s"
 				   android:gravity="center_vertical|right"			       
 			       android:textAppearance="?android:attr/textAppearanceLarge"
 			       android:textColor="@color/white"
-			       android:textSize="35sp" />		       	                                
+			       android:textSize="30sp" />		       	                                
 	            </LinearLayout>
 	            
 	            <LinearLayout 
