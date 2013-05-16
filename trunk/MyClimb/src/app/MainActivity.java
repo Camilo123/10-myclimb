@@ -6,9 +6,10 @@ package app;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.RadioGroup;
-import android.widget.TabHost;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 
 import com.mysport.ui.R;
@@ -29,6 +30,7 @@ public class MainActivity extends TabActivity  implements OnCheckedChangeListene
 
 	protected void onCreate(Bundle paramBundle) {
 		super.onCreate(paramBundle);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_tab);
 		tabHost=this.getTabHost();
 
