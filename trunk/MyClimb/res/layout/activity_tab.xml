@@ -11,128 +11,59 @@ android:layout_height="fill_parent">
   <FrameLayout android:id="@android:id/tabcontent"
        android:layout_width="fill_parent" 
        android:layout_height="0.0dip"
-       
        android:layout_weight="1.02" >
   </FrameLayout> 
   <TabWidget android:id="@android:id/tabs" 
       android:layout_width="fill_parent"
       android:layout_height="wrap_content" 
       android:layout_weight="0.0" 
-      
       android:visibility="gone" />
  
-<LinearLayout
-    android:id="@+id/main_radio"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:background="@drawable/tab"
-    android:baselineAligned="false"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
 
-  <LinearLayout
-      android:id="@+id/tab_gps"
-      android:layout_width="0.0dip"
-      android:layout_height="60dp"
-      android:layout_weight="1.0"
-      android:checked="true"
-      android:gravity="center_horizontal"
-      android:orientation="vertical" >
-
-      <ImageView
-          android:id="@+id/iv_gps"
-          android:layout_width="match_parent"
-          android:layout_height="35dp"
-          android:layout_marginTop="5dp"
-          android:contentDescription="@string/app_name"
-          android:src="@drawable/gps" />
-
-      <TextView
-          android:id="@+id/tv_direction"
-          android:layout_width="match_parent"
-          android:layout_height="15dp"
-          android:gravity = "center"
-          android:textColor="#FFFFFF"
-          android:textSize="10sp"
-          android:text="GPS" />
-  </LinearLayout>
   
-  <LinearLayout
-      android:id="@+id/tab_map"
-      android:layout_width="0.0dip"
-      android:layout_height="60dp"
-      android:layout_weight="1"
-      android:gravity="center_horizontal"
-      android:orientation="vertical" >
+        <RadioGroup 
+        	android:gravity="center_vertical" 
+        	android:layout_gravity="bottom" 
+        	android:orientation="horizontal" 
+        	android:id="@+id/main_radio" 
+        	android:background="@drawable/maintab_toolbar_bg" 
+        	android:layout_width="fill_parent" 
+        	android:layout_height="wrap_content">
+            <RadioButton 
+            	android:id="@+id/radio_button0" 
+            	android:tag="radio_button0" 
+            	android:layout_marginTop="2.0dip" 
+            	android:text="@string/gps" 
+            	android:drawableTop="@drawable/gps" 
+            	style="@style/main_tab_bottom" />
+            <RadioButton 
+            	android:id="@+id/radio_button1" 
+            	android:tag="radio_button1" 
+            	android:layout_marginTop="2.0dip" 
+            	android:text="@string/map" 
+            	android:drawableTop="@drawable/map" 
+            	style="@style/main_tab_bottom" />
+            <RadioButton 
+            	android:id="@+id/radio_button2" 
+            	android:tag="radio_button2" 
+            	android:layout_marginTop="2.0dip" 
+            	android:text="@string/weather" 
+            	android:drawableTop="@drawable/weather" 
+            	style="@style/main_tab_bottom" />
+            <RadioButton 
+            	android:id="@+id/radio_button3" 
+            	android:tag="radio_button3" 
+            	android:layout_marginTop="2.0dip" 
+            	android:text="@string/terrain" 
+            	android:drawableTop="@drawable/terrain" 
+            	style="@style/main_tab_bottom" />
+            
+        </RadioGroup>
  
-       <ImageView
-           android:id="@+id/iv_map"
-           android:layout_width="match_parent"
-           android:layout_height="35dp"
-           android:layout_marginTop="5dp"
-           android:contentDescription="@string/app_name"
-           android:src="@drawable/map" />
-
-        <TextView
-          android:id="@+id/tv_latitude"
-          android:layout_width="match_parent"
-          android:layout_height="15dp"
-          android:gravity = "center"
-          android:textColor="#FFFFFF"
-          android:textSize="10sp"
-          android:text="地图" />
-  </LinearLayout>
-
-  <LinearLayout
-      android:id="@+id/tab_weather"
-      android:layout_width="0.0dip"
-      android:layout_height="60dp"
-      android:layout_weight="1"
-      android:gravity="center_horizontal"
-      android:orientation="vertical" >
-
-      <ImageView
-          android:id="@+id/iv_weather"
-          android:layout_width="match_parent"
-          android:layout_height="35dp"
-          android:layout_marginTop="5dp"
-          android:contentDescription="@string/app_name"
-          android:src="@drawable/weather" />
-      
-      <TextView
-          android:id="@+id/tv_startTime"
-          android:layout_width="match_parent"
-          android:layout_height="15dp"
-          android:gravity = "center"
-          android:textColor="#FFFFFF"
-          android:textSize="10sp"
-          android:text="天气" />
-  </LinearLayout>
-
-  <LinearLayout
-      android:id="@+id/tab_terrain"
-      android:layout_width="0dip"
-      android:layout_height="60dp"
-      android:layout_weight="1"
-      android:orientation="vertical" >
-
-      <ImageView
-          android:id="@+id/iv_terrain"
-          android:layout_width="match_parent"
-          android:layout_height="35dp"
-          android:layout_marginTop="5dp"
-          android:contentDescription="@string/app_name"
-          android:src="@drawable/terrain" />
-      <TextView
-          android:id="@+id/tv_stopTime"
-          android:layout_width="match_parent"
-          android:layout_height="15dp"
-          android:gravity = "center"
-          android:textColor="#FFFFFF"
-          android:textSize="10sp"
-          android:text="地形" />
-  </LinearLayout>
-</LinearLayout>  
 </LinearLayout> 
 </TabHost>
+
+
+
+
+ 

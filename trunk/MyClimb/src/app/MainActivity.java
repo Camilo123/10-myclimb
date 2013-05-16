@@ -2,87 +2,76 @@ package app;
 
 
 
-import com.mysport.ui.R;
-
-
 
 import android.app.TabActivity;
-
 import android.content.Intent;
-
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.RadioGroup;
 import android.widget.TabHost;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TabHost.OnTabChangeListener;
+
+import com.mysport.ui.R;
 /**
  * 
- * @author 福建师范大学软件学院  倪友聪、赵康
+ * @author GreamTeam 沈志鹏  郑运春
  *
  */
-public class MainActivity extends TabActivity {
+public class MainActivity extends TabActivity  implements OnCheckedChangeListener{
+
 	public static final String TAB_GPS = "tabGps";
 	public static final String TAB_MAP = "tabMap";
 	public static final String TAB_WEATHER = "tabWeather";
 	public static final String TAB_TERRAIN = "tabTerrain";
-
+	
+	private RadioGroup radioderGroup;	
 	private TabHost tabHost;
 
 	protected void onCreate(Bundle paramBundle) {
 		super.onCreate(paramBundle);
-		requestWindowFeature(1);
 		setContentView(R.layout.activity_tab);
+		tabHost=this.getTabHost();
 
-		this.tabHost = getTabHost();
-		this.tabHost.addTab(this.tabHost.newTabSpec(TAB_GPS)//添加一个标识为TAB_GPS的Tab分页	
-				.setIndicator(TAB_GPS)//设定分页显示的标题
-				.setContent(new Intent(this, ui.activity.gps.GpsObtainActivity.class)));
-		//设定分页所关联的界面
-		//设定分页所关联的界面
-		this.tabHost.addTab(this.tabHost.newTabSpec(TAB_MAP)//添加一个标识为TAB_GPS的Tab分页	
-				.setIndicator(TAB_MAP)//设定分页显示的标题
-				.setContent(new Intent(this, ui.activity.map.basemap.class)));
 		
+        //添加选项卡
+		tabHost.addTab(tabHost.newTabSpec("TAB_GPS").setIndicator("TAB_GPS")
+        			.setContent(new Intent(this, ui.activity.gps.GpsObtainActivity.class)));
+		tabHost.addTab(tabHost.newTabSpec("TAB_MAP").setIndicator("TAB_MAP")
+        		.setContent(new Intent(this,ui.activity.map.basemap.class)));
+		tabHost.addTab(tabHost.newTabSpec("TAB_WEATHER").setIndicator("TAB_WEATHER")
+        		.setContent(new Intent(this,ui.activity.map.ThreeActivity.class)));//这两个没实现 点击会奔溃
+		tabHost.addTab(tabHost.newTabSpec("TAB_TERRAIN").setIndicator("TAB_TERRAIN")
+        		.setContent(new Intent(this,ui.activity.map.FourActivity.class)));//这两个没实现  点击会奔溃
 		
-		this.setDefaultTab(0);
+        radioderGroup = (RadioGroup) findViewById(R.id.main_radio);
+		radioderGroup.setOnCheckedChangeListener(this);
 
 		this.tabHost.setOnTabChangedListener(new OnTabChangeListener() {
 
 			@Override
 			public void onTabChanged(String tabId) {
 				// TODO Auto-generated method stub
-
 			}
 		});
-
-		View tab1 = findViewById(R.id.tab_gps);
-		tab1.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				tabHost.setCurrentTabByTag(TAB_GPS);
-			}
-		});
-
-		View tab2 = findViewById(R.id.tab_map);
-		tab2.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				tabHost.setCurrentTabByTag(TAB_MAP);
-			}
-		});
-		View tab3 = findViewById(R.id.tab_weather);
-		tab3.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-
-				tabHost.setCurrentTabByTag(TAB_WEATHER);
-			}
-		});
-		View tab4 = findViewById(R.id.tab_terrain);
-		tab4.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-
-				tabHost.setCurrentTabByTag(TAB_TERRAIN);
-			}
-		});
-
 	}
 
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		// TODO Auto-generated method stub
+		switch(checkedId){
+		case R.id.radio_button0:
+			tabHost.setCurrentTabByTag("TAB_GPS");
+			break;
+		case R.id.radio_button1:
+			tabHost.setCurrentTabByTag("TAB_MAP");
+			break;
+		case R.id.radio_button2:
+			tabHost.setCurrentTabByTag("TAB_WEATHER");
+			break;
+		case R.id.radio_button3:
+			tabHost.setCurrentTabByTag("TAB_TERRAIN");
+			break;
+		}		
+	}
 }
+   
