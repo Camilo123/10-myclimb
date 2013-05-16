@@ -14,8 +14,11 @@
     <string name="btn_return">返回</string>
     <string name="ActivityOfAF4AdName">ActivityOfAF4Ad</string>
     <string name="spin_prompt"> 请选择城市 </string>
-    <string name="map_not_ready">地图初始化失败</string>
-    
+    <string name="gps">GPS</string>
+    <string name="map">地图</string>
+     <string name="map_not_ready">地图初始化失败</string>
+    <string name="weather">天气</string>
+    <string name="terrain">地形</string>
 
     <string-array name="cities">
         <item> 北京 </item>
