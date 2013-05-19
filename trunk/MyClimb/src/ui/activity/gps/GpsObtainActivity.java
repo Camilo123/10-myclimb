@@ -43,33 +43,31 @@ import domain.businessService.gps.IClimbDataService;
  * @author DreamTeam 沈志鹏
  */
 public class GpsObtainActivity extends ActivityOfAF4Ad {
-	private TextView tv_altitude;//高度显示控件
-	private TextView tv_direction;//方向显示控件
-	private TextView tv_speed;//速度显示控件
-	private TextView tv_longitude;//经度显示控件
-	private TextView tv_latitude;//纬度显示控件
-	private Button bt_startAndStop;//开始结束按钮
-	private ImageView iv_record;//跳转到记录界面图标
+	private TextView tv_altitude;// 高度显示控件
+	private TextView tv_direction;// 方向显示控件
+	private TextView tv_speed;// 速度显示控件
+	private TextView tv_longitude;// 经度显示控件
+	private TextView tv_latitude;// 纬度显示控件
+	private Button bt_startAndStop;// 开始结束按钮
+	private ImageView iv_record;// 跳转到记录界面图标
 	private Builder builder;
-	private EditText editor;//对话框文本输入控件
-	private LocationManager locManager;//定义LocationManager对象
-	private String cliName;//行程名称
-	private Chronometer timer;//定义计时器
-	private Date startTime;//记录开始时间
-	private Date stopTime;//记录结束时间
-	private int startAltitude;//开始海拔
-	private int stopAltitude;//结束海拔
+	private EditText editor;// 对话框文本输入控件
+	private LocationManager locManager;// 定义LocationManager对象
+	private String cliName;// 行程名称
+	private Chronometer timer;// 定义计时器
+	private Date startTime;// 记录开始时间
+	private Date stopTime;// 记录结束时间
+	private int startAltitude;// 开始海拔
+	private int stopAltitude;// 结束海拔
 	private SimpleDateFormat sDateFormat;
 	boolean flag = false;// 设置开始结束按钮标志
-	private int currentAltitude;//获取当前高度
-	private SensorManager mSensorManager;//定义SensorManager对象
-	private double stopLon;//结束时经度
-	private double stopLat;//结束时纬度
-	private double currentLon;//当前经度
-	private double currentLat;//当前纬度
-	private IClimbDataService climbDataService = new ClimbDataService();//定义登山数据服务对象
-	private ClimbData climbData = new ClimbData();
-		
+	private int currentAltitude;// 获取当前高度
+	private SensorManager mSensorManager;// 定义SensorManager对象
+	private double stopLon;// 结束时经度
+	private double stopLat;// 结束时纬度
+	private double currentLon;// 当前经度
+	private double currentLat;// 当前纬度
+	private IClimbDataService climbDataService;// 定义登山数据服务对象
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,15 +92,14 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		tv_latitude = (TextView) findViewById(R.id.tv_latitude);
 		iv_record = (ImageView) findViewById(R.id.iv_record);
 		timer = (Chronometer) findViewById(R.id.timer);
+		climbDataService = new ClimbDataService();
+
 		// 构建对话框输入控件对象
 		editor = new EditText(this);
 		builder = new AlertDialog.Builder(this);
 
 		// 设置计时器显示格式
 		timer.setFormat("%s");
-		
-		// 设置获取时间格式测试用
-		sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
 		if (flag == true) {
 			bt_startAndStop.setText("Stop");
@@ -154,9 +151,9 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 					stopTime = new java.util.Date();
 					// 记录结束时高度
 					stopAltitude = currentAltitude;
-					//记录结束是经度
+					// 记录结束是经度
 					stopLon = currentLon;
-					//记录结束是纬度
+					// 记录结束是纬度
 					stopLat = currentLat;
 					writeDataToSqlite();
 					initControlsAndRegEvent();
@@ -168,12 +165,12 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 
 			@Override
 			public void onClick(View v) {
-				 //测试用
-//				 String trans;
-//				 trans = sDateFormat.format(stopTime);
-//				 Toast toast = Toast.makeText(GpsObtainActivity.this,
-//				 trans, Toast.LENGTH_LONG);
-//				 toast.show();
+				// 测试用
+				// String trans;
+				// trans = sDateFormat.format(stopTime);
+				// Toast toast = Toast.makeText(GpsObtainActivity.this,
+				// trans, Toast.LENGTH_LONG);
+				// toast.show();
 				toRecActivity();
 			}
 		});
@@ -300,8 +297,10 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		mSensorManager.unregisterListener(mSersorEventListener);
 		super.onStop();
 	}
-	//数据写入数据库操作
-	public void writeDataToSqlite(){
+
+	// 数据写入数据库操作
+	public void writeDataToSqlite() {
+		ClimbData climbData = new ClimbData();
 		climbData.setClimbName(cliName);
 		climbData.setLatitude(stopLat);
 		climbData.setLongitude(stopLon);
