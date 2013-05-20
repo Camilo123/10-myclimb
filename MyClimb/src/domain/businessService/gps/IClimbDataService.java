@@ -18,7 +18,7 @@ public interface IClimbDataService {
 	public List<ClimbData> getClimbData();
 	
 	//根据ID获取登山记录
-	public boolean getClimbDataById(int climbId);
+	public ClimbData getClimbDataById(int climbId);
 	
 	
 }

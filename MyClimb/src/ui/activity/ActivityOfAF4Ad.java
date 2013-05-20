@@ -59,7 +59,7 @@ public abstract class ActivityOfAF4Ad extends Activity {
 		}
 
 		// 构造监听器
-		listener = new OnViewModelUpdated();
+		setListener(new OnViewModelUpdated());
 		Log.d(tag, "in OnCreate...");
 	}
 
@@ -83,13 +83,13 @@ public abstract class ActivityOfAF4Ad extends Activity {
 		// 注册视图模型的监听者
 		if (vm != null) {
 
-			int position = vm.findListener(listener);
+			int position = vm.findListener(getListener());
 			Log.d(tag, "finding listener...");
 
 			// 是否已加入过
 			if (position == -1) {
 				// 注册视图模型的监听者
-				vm.addListener(listener);
+				vm.addListener(getListener());
 				Log.d(tag, "listener added");
 			}
 
@@ -104,9 +104,9 @@ public abstract class ActivityOfAF4Ad extends Activity {
 	@Override
 	protected void onDestroy() {
 		if (vm != null) {
-			int position = vm.findListener(listener);
+			int position = vm.findListener(getListener());
 			if (position > -1) {
-				vm.removeListener(listener);
+				vm.removeListener(getListener());
 			}
 		}
 		super.onDestroy();
@@ -188,5 +188,13 @@ public abstract class ActivityOfAF4Ad extends Activity {
 		//发送广播
 		sendBroadcast(toAppIntent);
 
+	}
+
+	public OnViewModelUpdated getListener() {
+		return listener;
+	}
+
+	public void setListener(OnViewModelUpdated listener) {
+		this.listener = listener;
 	}
 }
