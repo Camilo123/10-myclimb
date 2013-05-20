@@ -48,6 +48,7 @@ LocationSource, AMapLocationListener ,OnItemSelectedListener {
 	private List<List<String>> item_names;	//选项名称
 	private List<List<Integer>> item_images;	//选项图标
 	private MyDefinedMenu myMenu;	//弹出菜单
+	boolean trafficFlag = true; //判断实时路况
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,13 @@ LocationSource, AMapLocationListener ,OnItemSelectedListener {
 				aMap.setMapType(AMap.MAP_TYPE_NORMAL);
 			if(arg2 == 1)
 				aMap.setMapType(AMap.MAP_TYPE_SATELLITE);
+			if(arg2 == 2){
+				aMap.setTrafficEnabled(trafficFlag);
+				if(trafficFlag)
+					trafficFlag=false;
+				else
+					trafficFlag=true;
+			}
 			
 			
 			myMenu.dismiss();	//菜单消失
@@ -271,18 +279,6 @@ LocationSource, AMapLocationListener ,OnItemSelectedListener {
 	}
  
 
-
-
-
-	/**
-	 * 对选择是否显示交通状况事件的响应
-	 */
-	public void onTrafficToggled(View view) {
-		if (AMapUtil.checkReady(this, aMap)) {
-			aMap.setTrafficEnabled(((CheckBox) view).isChecked());
-		}
-
-	}
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
