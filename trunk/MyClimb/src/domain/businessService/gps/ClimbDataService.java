@@ -65,29 +65,35 @@ public class ClimbDataService implements IClimbDataService {
 	@Override
 	public List<ClimbData> getClimbData() {
 		// TODO Auto-generated method stub
+		try {
+			List<ClimbData> dateList=ctx.queryForAll(ClimbData.class, int.class);
+			return dateList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			Log.e(Tag, e.toString());
+		}
 		return null;
 	}
 	
 	//根据ID获取数据
-	@Override
-//	public ClimbData getClimbDataById(int climbId) {
-//		// TODO Auto-generated method stub
-//		try{
-//			 ClimbData climbdata = new ClimbData();
-//			 climbdata = ctx.queryById(ClimbData.class, int.class, climbId);
-//			 return climbdata;
-//			 
-//		}catch (Exception e) {
-//			// TODO: handle exception
-//			Log.e(Tag, e.toString());
-//		}
-//		
-//		ClimbData climbdata = new ClimbData();
-//		return climbdata;
-//	
-//	}
 	
+	public ClimbData getClimbDataById(int climbId) {
+		// TODO Auto-generated method stub
+		ClimbData climbdata = new ClimbData();
+		try{
+			 climbdata = ctx.queryById(ClimbData.class, int.class, climbId);
+			 return climbdata;
+			 
+		}catch (Exception e) {
+			// TODO: handle exception
+			Log.e(Tag, e.toString());
+		}
+		return null;
+		
 	
+	}
+	
+/*	
 	public boolean getClimbDataById(int climbId) {
 		// TODO Auto-generated method stub
 		 ClimbData climbdata=null;
@@ -106,6 +112,6 @@ public class ClimbDataService implements IClimbDataService {
 		return false;
 	
 	}
-
+*/
 
 }
