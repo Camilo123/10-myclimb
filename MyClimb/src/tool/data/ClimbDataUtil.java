@@ -32,12 +32,12 @@ public class ClimbDataUtil {
 		
 		Bundle bundle = new Bundle();
 		
-		bundle.putInt(startAltitude, climbdat.getStartAltitude());
-		bundle.putInt(stopAltitude, climbdat.getStopAltitude());
-		bundle.putString(startTime, climbdat.getStartTime().toString());
-		bundle.putString(stopTime, climbdat.getStopTime().toString());
-		bundle.putDouble(longitude, climbdat.getLongitude());
-		bundle.putDouble(latitude, climbdat.getLatitude());
+		bundle.putInt("startAltitude", climbdat.getStartAltitude());
+		bundle.putInt("stopAltitude", climbdat.getStopAltitude());
+		bundle.putString("startTime", climbdat.getStartTime().toString());
+		bundle.putString("stopTime", climbdat.getStopTime().toString());
+		bundle.putDouble("longitude", climbdat.getLongitude());
+		bundle.putDouble("latitude", climbdat.getLatitude());
 		
 		return bundle;
 	}
@@ -45,8 +45,8 @@ public class ClimbDataUtil {
 	public static ClimbData readCardFromBundle(Bundle bundle){
 		
 		ClimbData climbdat = new ClimbData();
-		climbdat.setStartAltitude(bundle.getInt(startAltitude));
-		climbdat.setStopAltitude(bundle.getInt(stopAltitude));
+		climbdat.setStartAltitude(bundle.getInt("startAltitude"));
+		climbdat.setStopAltitude(bundle.getInt("stopAltitude"));
 		
 
 		
@@ -54,8 +54,8 @@ public class ClimbDataUtil {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:MI:SS");
 		try {
-			 date1 = sdf.parse(bundle.getString(startTime));
-			 date2 = sdf.parse(bundle.getString(stopTime));
+			 date1 = sdf.parse(bundle.getString("startTime"));
+			 date2 = sdf.parse(bundle.getString("stopTime"));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,8 +63,8 @@ public class ClimbDataUtil {
 		climbdat.setStartTime(date1);
 		
 		climbdat.setStopTime(date2);
-		climbdat.setLongitude(bundle.getDouble(longitude));
-		climbdat.setLatitude(bundle.getDouble(longitude));
+		climbdat.setLongitude(bundle.getDouble("longitude"));
+		climbdat.setLatitude(bundle.getDouble("latitude"));
 	
 		return climbdat;
 	}
