@@ -184,9 +184,14 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	// 开启GPS功能
 	public void startGps() {
 		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		Location location = locManager
-				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
+		Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+	
+		
+	//	Location location=locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		
+		
+		
 		updateGpsView(location);
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000,
 				8, new LocationListener() {
