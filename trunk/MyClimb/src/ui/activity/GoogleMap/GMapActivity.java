@@ -2,6 +2,7 @@
 package ui.activity.GoogleMap;
 
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mysport.ui.R;
+
+import domain.businessEntity.gps.ClimbData;
 
 public class GMapActivity extends FragmentActivity 
 implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
@@ -38,6 +41,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
     private static final int HUE_MAX = 360;
     private static final int ALPHA_MAX = 255;
     private Polyline mMutablePolyline;
+    //经纬度
+    private double latitude;
+    private double Longitude;
 
 	
     private GoogleMap mMap;
@@ -47,6 +53,14 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_googlemap);
+        //获取由RecDetailsActivity传过来的位置信息
+        Intent intent = getIntent();
+		if (intent != null) {
+			Bundle bundle = intent.getExtras();
+			latitude = bundle.getDouble("lat");
+			Longitude = bundle.getDouble("lon");
+
+		}
         
     
         SupportMapFragment mapFragment =
