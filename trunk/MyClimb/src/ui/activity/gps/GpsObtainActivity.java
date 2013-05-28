@@ -222,6 +222,8 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 				});
 	}
 
+	
+	
 	// 动态更新GPS数据
 	public void updateGpsView(Location newLocation) {
 		int altitude;
