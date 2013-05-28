@@ -61,6 +61,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 	//经纬度全局变量方便传值
 	private double lat;
 	private double lon;
+	private String Name;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 		}
 
 		if (climbdata != null) {
-			String Name = climbdata.getClimbName();
+			Name = climbdata.getClimbName();
 			tv_Name.setText(Name);
 			Double longitude = climbdata.getLongitude();
 			Double latitude = climbdata.getLatitude();
@@ -149,6 +150,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 				Bundle bundle = new Bundle();
 				bundle.putDouble("lat", lat);
 				bundle.putDouble("lon", lon);
+				bundle.putString("Marker",Name);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
