@@ -7,11 +7,13 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
@@ -20,8 +22,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mysport.ui.R;
-
-import domain.businessEntity.gps.ClimbData;
 
 public class GMapActivity extends FragmentActivity 
 implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
@@ -43,25 +43,19 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
     private Polyline mMutablePolyline;
     //经纬度
     private double latitude;
-    private double Longitude;
-
+    private double longitude;
+    private String Name;
+    
 	
     private GoogleMap mMap;
     private UiSettings mUiSettings;
 
+  
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_googlemap);
-        //获取由RecDetailsActivity传过来的位置信息
-        Intent intent = getIntent();
-		if (intent != null) {
-			Bundle bundle = intent.getExtras();
-			latitude = bundle.getDouble("lat");
-			Longitude = bundle.getDouble("lon");
-
-		}
-        
     
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -75,10 +69,22 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
         }
         
         setUpMapIfNeeded();
+        
+        
+        //获取由RecDetailsActivity传过来的位置信息
+		Bundle bundle = getIntent().getExtras();
+		if(bundle != null)
+		{
+			latitude = bundle.getDouble("lat");
+			longitude = bundle.getDouble("lon");
+			Name = bundle.getString("Marker");
+	       	 mMap.addMarker(new MarkerOptions()
+   				.position(new LatLng(longitude,latitude)).title(Name));
+	       	 
+	       mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(longitude,latitude),15));   	
+		}
+		
     }
-
-    
-    
     
     
     @Override
@@ -89,11 +95,9 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
         if (mMap != null) {
         		setUi();
             
-            
-            
    //         mMap.setMapType(MAP_TYPE_NORMAL);
  //           mMap.setMapType(MAP_TYPE_HYBRID);
-            mMap.setMapType(MAP_TYPE_SATELLITE);
+              mMap.setMapType(MAP_TYPE_SATELLITE);
 //            mMap.setMapType(MAP_TYPE_TERRAIN);
             
             
@@ -103,8 +107,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 //            location.setAccuracy(100);
 //            mListener.onLocationChanged(location);
 //            
-            
-            mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
             
             }
     }
@@ -132,7 +134,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 
 
     private void setUpMap() {
-      //  mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
         mMap.setMyLocationEnabled(true);
         mUiSettings = mMap.getUiSettings();
     	
@@ -175,16 +176,11 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 	}
 
 
-
-
-
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 
 
 
