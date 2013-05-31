@@ -355,7 +355,6 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 			Intent intent=new Intent(GpsObtainActivity.this, RecordActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-			GpsObtainActivity.this.finish();
 		}
 		return false;
 	}

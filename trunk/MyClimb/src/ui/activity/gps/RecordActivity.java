@@ -72,12 +72,12 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 				Intent intent=new Intent(RecordActivity.this, RecDetailsActivity.class);
 				Bundle bundle=new Bundle();
 				bundle.putInt("id", list.get(arg2).getClimbID());
+				bundle.putInt("count", list.size());
 				Toast toast = Toast.makeText(RecordActivity.this, list.get(arg2).getClimbID()+"", Toast.LENGTH_SHORT);
 				toast.show();
 				intent.putExtras(bundle);
 				startActivity(intent);
 				
-				finish();
 				
 				
 				
@@ -175,7 +175,7 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 			Intent intent=new Intent(RecordActivity.this, GpsObtainActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
-			RecordActivity.this.finish();
+		
 		}
 		return false;
 	}
