@@ -12,11 +12,16 @@ import ui.viewModel.ModelErrorInfo;
 import ui.viewModel.ViewModel;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +37,7 @@ import domain.businessService.gps.IClimbDataService;
  *    uml_usage="mmi:///#jsrctype^name=BackToRecord[jsrctype^name=RecDetailsActivity[jcu^name=RecDetailsActivity.java[jpack^name=ui.activity.gps[jsrcroot^srcfolder=src[project^id=MyClimb]]]]]$uml.Class"
  * @author DreamTeam 郑宇 
  */
-public class RecordActivity extends ActivityOfAF4Ad {
+public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,OnGestureListener  {
 	private IClimbDataService dateService;
 	
 	private ListView recList;
@@ -41,6 +46,9 @@ public class RecordActivity extends ActivityOfAF4Ad {
 	List<Map<String,String>> data;
 	List<ClimbData> list;
 	Date date=new Date();
+	GestureDetector mGestureDetector=null;  //定义手势监听对象
+	private int verticalMinDistance = 10;   //最小触摸滑动距离
+	private int minVelocity         = 0;   //最小水平移动速度
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,10 @@ public class RecordActivity extends ActivityOfAF4Ad {
 		list=dateService.getClimbData();
 		data=convertDateToMap(list);
 		recList=(ListView)findViewById(R.id.recList);
+		mGestureDetector=new GestureDetector((OnGestureListener)this);
+		RelativeLayout recordlayout=(RelativeLayout)findViewById(R.id.record_layout);
+		recordlayout.setOnTouchListener(this);
+		recordlayout.setLongClickable(true);
 		recList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -146,6 +158,57 @@ public class RecordActivity extends ActivityOfAF4Ad {
 			String errMsg) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean onDown(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
+			float arg3) {
+		// TODO Auto-generated method stub
+		if(arg1.getX()-arg0.getX()>verticalMinDistance && Math.abs(arg2)>minVelocity)
+		{
+			Intent intent=new Intent(RecordActivity.this, GpsObtainActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+			RecordActivity.this.finish();
+		}
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2,
+			float arg3) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		return mGestureDetector.onTouchEvent(event);  
 	}
 
 }

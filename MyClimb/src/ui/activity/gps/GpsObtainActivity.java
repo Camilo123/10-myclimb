@@ -23,12 +23,19 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,14 +49,13 @@ import domain.businessService.gps.IClimbDataService;
 /**
  * @author DreamTeam 沈志鹏
  */
-public class GpsObtainActivity extends ActivityOfAF4Ad {
+public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListener,OnGestureListener {
 	private TextView tv_altitude;// 高度显示控件
 	private TextView tv_direction;// 方向显示控件
 	private TextView tv_speed;// 速度显示控件
 	private TextView tv_longitude;// 经度显示控件
 	private TextView tv_latitude;// 纬度显示控件
-	private Button bt_startAndStop;// 开始结束按钮
-	private ImageView iv_record;// 跳转到记录界面图标
+	private ImageButton bt_startAndStop;// 开始结束按钮
 	private Builder builder;
 	private EditText editor;// 对话框文本输入控件
 	private LocationManager locManager;// 定义LocationManager对象
@@ -68,11 +74,21 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	private double currentLon;// 当前经度
 	private double currentLat;// 当前纬度
 	private IClimbDataService climbDataService;// 定义登山数据服务对象
+	GestureDetector mGestureDetector=null;  //定义手势监听对象
+	private int verticalMinDistance = 10;   //最小触摸滑动距离
+	private int minVelocity         = 0;   //最小水平移动速度
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gps);
+		mGestureDetector=new GestureDetector((OnGestureListener)this);
+		LinearLayout mainlayout=(LinearLayout)findViewById(R.id.gps_main_layout);
+		mainlayout.setOnTouchListener(this);
+		mainlayout.setLongClickable(true);
+		
+		
+		
 	}
 
 	@Override
@@ -84,13 +100,12 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 	@Override
 	protected void initControlsAndRegEvent() {
 		// 获取相应控件id
-		bt_startAndStop = (Button) findViewById(R.id.bt_startAndStop);
+		bt_startAndStop = (ImageButton) findViewById(R.id.bt_startAndStop);
 		tv_altitude = (TextView) findViewById(R.id.tv_altitude);
 		tv_direction = (TextView) findViewById(R.id.tv_direction);
 		tv_speed = (TextView) findViewById(R.id.tv_speed);
 		tv_longitude = (TextView) findViewById(R.id.tv_longitude);
 		tv_latitude = (TextView) findViewById(R.id.tv_latitude);
-		iv_record = (ImageView) findViewById(R.id.iv_record);
 		timer = (Chronometer) findViewById(R.id.timer);
 		climbDataService = new ClimbDataService();
 
@@ -102,9 +117,9 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 		timer.setFormat("%s");
 
 		if (flag == true) {
-			bt_startAndStop.setText("Stop");
+			bt_startAndStop.setImageDrawable(getResources().getDrawable(R.drawable.pause));
 		} else
-			bt_startAndStop.setText("Start");
+			bt_startAndStop.setImageDrawable(getResources().getDrawable(R.drawable.play));
 
 		// 启动GPS
 		startGps();
@@ -161,19 +176,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 			}
 
 		});
-		iv_record.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// 测试用
-				// String trans;
-				// trans = sDateFormat.format(stopTime);
-				// Toast toast = Toast.makeText(GpsObtainActivity.this,
-				// trans, Toast.LENGTH_LONG);
-				// toast.show();
-				toRecActivity();
-			}
-		});
+		
 	}
 
 	// 跳转到记录界面
@@ -335,6 +338,57 @@ public class GpsObtainActivity extends ActivityOfAF4Ad {
 			String errMsg) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean onDown(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
+			float arg3) {
+		// TODO Auto-generated method stub
+		if(arg0.getX()-arg1.getX()>verticalMinDistance && Math.abs(arg2)>minVelocity)
+		{
+			Intent intent=new Intent(GpsObtainActivity.this, RecordActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+			GpsObtainActivity.this.finish();
+		}
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2,
+			float arg3) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onTouch(View arg0, MotionEvent arg1) {
+		// TODO Auto-generated method stub
+		return mGestureDetector.onTouchEvent(arg1);  
 	}
 
 }
