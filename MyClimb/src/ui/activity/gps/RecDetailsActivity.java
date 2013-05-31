@@ -9,11 +9,19 @@ import java.util.List;
 import android.R.integer;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.GestureDetector;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mysport.ui.R;
 
@@ -29,7 +37,7 @@ import ui.viewModel.ModelErrorInfo;
 import ui.viewModel.ViewModel;
 import ui.viewModel.gps.RecDetailViewModel;
 
-public class RecDetailsActivity extends ActivityOfAF4Ad {
+public class RecDetailsActivity extends ActivityOfAF4Ad implements OnTouchListener,OnGestureListener {
 	private IClimbDataService dateService;
 	// 记录名
 	private TextView tv_Name = null;
@@ -57,11 +65,16 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 	private ImageView iv_delete = null;
 	
 	private ImageView iv_location;
-	private int id;
+	private int id=-1;
+	private int maxId=-1;
 	//经纬度全局变量方便传值
 	private double lat;
 	private double lon;
 	private String Name;
+	GestureDetector mGestureDetector=null;  //定义手势监听对象
+	private int verticalMinDistance = 10;   //最小触摸滑动距离
+	private int minVelocity         = 0;   //最小水平移动速度
+	private RelativeLayout detailLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +102,13 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 		iv_delete = (ImageView) findViewById(R.id.iv_delete);
 		iv_location = (ImageView) findViewById(R.id.iv_loc);
 		iv_back.setOnClickListener(new BackToRecord());
-		
+		mGestureDetector=new GestureDetector((OnGestureListener)this);
+		detailLayout=(RelativeLayout)findViewById(R.id.detail_layout);
+		detailLayout.setOnTouchListener(this);
+		detailLayout.setLongClickable(true);
 		dateService = new ClimbDataService();
+		
+		
 
 		
 		Intent intent = getIntent();
@@ -98,38 +116,17 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 		if (intent != null) {
 			Bundle bundle = intent.getExtras();
 			id = bundle.getInt("id");
+			maxId=bundle.getInt("count");
 			climbdata = dateService.getClimbDataById(id);
 
 		} else {
 			throw new RuntimeException("查看信息出错");
 		}
+		showActivity(climbdata);
+		
 
-		if (climbdata != null) {
-			Name = climbdata.getClimbName();
-			tv_Name.setText(Name);
-			Double longitude = climbdata.getLongitude();
-			Double latitude = climbdata.getLatitude();
-			lat = longitude;
-			lon = latitude;
-			tv_lat.setText(longitude.toString());
-
-			tv_lon.setText(latitude.toString());
-			Date startTime = climbdata.getStartTime();
-			Date stopTime = climbdata.getStopTime();
-			tv_Date.setText(DateFormat.getDateInstance().format(startTime));
-			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-
-			String date1 = sdf.format(startTime);
-			String date2 = sdf.format(stopTime);
-
-			tv_startTime.setText(date1);
-			tv_stopTime.setText(date2);
-			int startAltitude = climbdata.getStartAltitude();
-			int stopAltitude = climbdata.getStopAltitude();
-			int altitudeDiff = stopAltitude - startAltitude;
-			tv_altitudeDiff.setText(altitudeDiff + "");
-
-		}
+		
+	
 		//设置删除键监听事件
 		iv_delete.setOnClickListener(new View.OnClickListener() {
 			
@@ -171,6 +168,37 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 
 	}
 	
+	//
+	public void showActivity(ClimbData climbdata)
+	{
+		if (climbdata != null) {
+			Name = climbdata.getClimbName();
+			tv_Name.setText(Name);
+			Double longitude = climbdata.getLongitude();
+			Double latitude = climbdata.getLatitude();
+			lat = longitude;
+			lon = latitude;
+			tv_lat.setText(longitude.toString());
+
+			tv_lon.setText(latitude.toString());
+			Date startTime = climbdata.getStartTime();
+			Date stopTime = climbdata.getStopTime();
+			tv_Date.setText(DateFormat.getDateInstance().format(startTime));
+			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+
+			String date1 = sdf.format(startTime);
+			String date2 = sdf.format(stopTime);
+
+			tv_startTime.setText(date1);
+			tv_stopTime.setText(date2);
+			int startAltitude = climbdata.getStartAltitude();
+			int stopAltitude = climbdata.getStopAltitude();
+			int altitudeDiff = stopAltitude - startAltitude;
+			tv_altitudeDiff.setText(altitudeDiff + "");
+		}
+
+	}
+	
 	
 
 	@Override
@@ -191,6 +219,77 @@ public class RecDetailsActivity extends ActivityOfAF4Ad {
 			String errMsg) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean onDown(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		// TODO Auto-generated method stub
+		if(e2.getX()-e1.getX()>verticalMinDistance && Math.abs(velocityX)>minVelocity&&--id>=1)
+		{
+			Toast toast = Toast.makeText(RecDetailsActivity.this, id+"", Toast.LENGTH_SHORT);
+			toast.show();
+			Animation translateAnimationoOut=AnimationUtils.loadAnimation(detailLayout.getContext(), R.anim.out_to_right);
+			detailLayout.startAnimation(translateAnimationoOut);
+			ClimbData climbdata = dateService.getClimbDataById(id);
+			showActivity(climbdata);
+			Animation translateAnimationIn=AnimationUtils.loadAnimation(detailLayout.getContext(), R.anim.in_from_left);
+			detailLayout.startAnimation(translateAnimationIn);
+			
+			
+		}
+		if(e1.getX()-e2.getX()>verticalMinDistance && Math.abs(velocityX)>minVelocity&&++id<=maxId)
+		{
+			Toast toast = Toast.makeText(RecDetailsActivity.this, id+"", Toast.LENGTH_SHORT);
+			toast.show();
+			ClimbData climbdata = dateService.getClimbDataById(id);
+			Animation translateAnimationOut=AnimationUtils.loadAnimation(detailLayout.getContext(), R.anim.out_to_left);
+			detailLayout.startAnimation(translateAnimationOut);
+			showActivity(climbdata);
+			Animation translateAnimationIn=AnimationUtils.loadAnimation(detailLayout.getContext(), R.anim.in_from_right);
+			detailLayout.startAnimation(translateAnimationIn);
+			
+			
+		}
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		return mGestureDetector.onTouchEvent(event);  
 	}
 
 }
