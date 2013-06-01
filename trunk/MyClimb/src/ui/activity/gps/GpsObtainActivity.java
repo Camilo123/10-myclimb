@@ -21,10 +21,12 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.os.SystemClock;
+import android.text.InputType;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
@@ -32,6 +34,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
@@ -45,13 +48,15 @@ import android.widget.Toast;
 import com.mysport.ui.R;
 
 import domain.businessEntity.gps.ClimbData;
+import domain.businessEntity.gps.LatLngData;
 import domain.businessService.gps.ClimbDataService;
 import domain.businessService.gps.IClimbDataService;
 
 /**
  * @author DreamTeam 沈志鹏
  */
-public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListener,OnGestureListener {
+public class GpsObtainActivity extends ActivityOfAF4Ad implements
+		OnTouchListener, OnGestureListener {
 	private TextView tv_altitude;// 高度显示控件
 	private TextView tv_direction;// 方向显示控件
 	private TextView tv_speed;// 速度显示控件
@@ -76,21 +81,19 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 	private double currentLon;// 当前经度
 	private double currentLat;// 当前纬度
 	private IClimbDataService climbDataService;// 定义登山数据服务对象
-	GestureDetector mGestureDetector=null;  //定义手势监听对象
-	private int verticalMinDistance = 10;   //最小触摸滑动距离
-	private int minVelocity         = 0;   //最小水平移动速度
+	GestureDetector mGestureDetector = null; // 定义手势监听对象
+	private int verticalMinDistance = 10; // 最小触摸滑动距离
+	private int minVelocity = 0; // 最小水平移动速度
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gps);
-		mGestureDetector=new GestureDetector((OnGestureListener)this);
-		LinearLayout mainlayout=(LinearLayout)findViewById(R.id.gps_main_layout);
+		mGestureDetector = new GestureDetector((OnGestureListener) this);
+		LinearLayout mainlayout = (LinearLayout) findViewById(R.id.gps_main_layout);
 		mainlayout.setOnTouchListener(this);
 		mainlayout.setLongClickable(true);
-		
-		
-		
+
 	}
 
 	@Override
@@ -119,9 +122,11 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 		timer.setFormat("%s");
 
 		if (flag == true) {
-			bt_startAndStop.setImageDrawable(getResources().getDrawable(R.drawable.pause));
+			bt_startAndStop.setImageDrawable(getResources().getDrawable(
+					R.drawable.pause));
 		} else
-			bt_startAndStop.setImageDrawable(getResources().getDrawable(R.drawable.play));
+			bt_startAndStop.setImageDrawable(getResources().getDrawable(
+					R.drawable.play));
 
 		// 启动GPS
 		startGps();
@@ -136,8 +141,19 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 				if (flag == false) {
 					builder.setTitle("请输入行程名称");
 					builder.setView(editor);
-					editor.setText(AddressByLatLng.getAddressByLatLng(
-							currentLat, currentLon));
+					RequireAddressAsyncTask asyncTask = new RequireAddressAsyncTask(
+							editor);
+					asyncTask.execute();
+					//点击自动EditText自动全选
+					editor.setOnTouchListener(new OnTouchListener() {					
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							editor.selectAll();
+							((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).showSoftInput(v, 0);
+							return true;
+						}
+					});	
+					
 					builder.setNegativeButton("取消", new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -182,23 +198,25 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 			}
 
 		});
-		
+
 	}
-	//发送开始状态广播给GoogleMap
-	public void sendStartStatusToGMap(){
+
+	// 发送开始状态广播给GoogleMap
+	public void sendStartStatusToGMap() {
 		Intent intent = new Intent();
 		intent.setAction("status");
 		intent.putExtra("status", true);
 		sendBroadcast(intent);
 	}
-	//发送结束状态广播给GoogleMap
-	public void sendStopStatusToGMap(){
+
+	// 发送结束状态广播给GoogleMap
+	public void sendStopStatusToGMap() {
 		Intent intent = new Intent();
 		intent.setAction("status");
 		intent.putExtra("status", false);
 		sendBroadcast(intent);
 	}
-	
+
 	// 跳转到记录界面
 	public void toRecActivity() {
 		toActivity(this, RecordActivity.class);
@@ -367,9 +385,10 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 	public boolean onFling(MotionEvent arg0, MotionEvent arg1, float arg2,
 			float arg3) {
 		// TODO Auto-generated method stub
-		if(arg0.getX()-arg1.getX()>verticalMinDistance && Math.abs(arg2)>minVelocity)
-		{
-			Intent intent=new Intent(GpsObtainActivity.this, RecordActivity.class);
+		if (arg0.getX() - arg1.getX() > verticalMinDistance
+				&& Math.abs(arg2) > minVelocity) {
+			Intent intent = new Intent(GpsObtainActivity.this,
+					RecordActivity.class);
 			startActivity(intent);
 			overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
 		}
@@ -379,7 +398,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 	@Override
 	public void onLongPress(MotionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -392,7 +411,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 	@Override
 	public void onShowPress(MotionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -404,7 +423,34 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
-		return mGestureDetector.onTouchEvent(arg1);  
+		return mGestureDetector.onTouchEvent(arg1);
+	}
+	/**
+	 * 
+	 * 使用多线性异步使用访问网络，进行地址反向解析查询
+	 *
+	 */
+	class RequireAddressAsyncTask extends AsyncTask<Void, Void, String> {
+		private EditText editor;
+
+		public RequireAddressAsyncTask(EditText editor) {
+			this.editor = editor;
+		}
+
+		@Override
+		protected String doInBackground(Void... params) {
+			String result = null;
+			result = AddressByLatLng.getAddressByLatLng(currentLat, currentLon);
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+
+			editor.setText(result);
+
+		}
+
 	}
 
 }
