@@ -3,6 +3,8 @@ package foundation.data;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 /**
@@ -19,7 +21,11 @@ public interface IDataContext {
 	// 删除
 	public abstract <T, ID> void delete(T item, Class<T> dataClass,
 			Class<ID> idClass) throws SQLException;
-
+	
+	//通用删除
+	public abstract <T,ID> void delete(Class<T> dataClass,
+			Class<ID> idClass,PreparedDelete<T> preparedDelete) throws SQLException;
+	
 	// 更新
 	public abstract <T, ID> void update(T item, Class<T> dataClass,
 			Class<ID> idClass) throws SQLException;
@@ -77,6 +83,16 @@ public interface IDataContext {
 	 * @throws SQLException
 	 */
 	public abstract <T, ID> QueryBuilder<T, ID> getQueryBuilder(
+			Class<T> dataClass, Class<ID> idClass) throws SQLException;
+	/**
+	 * 获取DeleteBuilder
+	 * @param dataClass
+	 * @param idClass
+	 * @return
+	 * @throws SQLException
+	 */
+	
+	public abstract <T, ID> DeleteBuilder<T, ID> getDeleteBuilder(
 			Class<T> dataClass, Class<ID> idClass) throws SQLException;
 
 	/**

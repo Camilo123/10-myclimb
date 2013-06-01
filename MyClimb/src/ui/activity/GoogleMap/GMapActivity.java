@@ -12,6 +12,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -49,7 +52,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
     
     private List<LatLng> points = new ArrayList<LatLng>();
     
-    
+    private boolean status;//监听第一个界面广播过来的开始或结束的状态 true为开始，false为停止
     private GoogleMap mMap;
     private UiSettings mUiSettings;
 
@@ -134,6 +137,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 //            
             
             }
+        status = StatusReceiver.getStatus();
+        
         setUpLocationClientIfNeeded();
         mLocationClient.connect();
     }
@@ -346,10 +351,10 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 	        REQUEST,
 	        this);  // LocationListener
 	  }
-
- 
+	  
 	@Override
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
 	}
+	
 }

@@ -9,6 +9,8 @@ import app.MyApplication;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.GenericRawResults;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
@@ -55,6 +57,23 @@ public class DataContext implements IDataContext {
 		Dao<T, ID> dao = DaoManager.createDao(connectionSource, dataClass);
 		dao.deleteById(id);
 	}
+	
+	//删除BUilder
+		public <T, ID> DeleteBuilder<T, ID> getDeleteBuilder(Class<T> dataClass,
+				Class<ID> idClass) throws SQLException {
+			Dao<T, ID> dao = DaoManager.createDao(connectionSource, dataClass);
+			return dao.deleteBuilder();
+		}
+		
+		
+		//通用删除
+		public <T, ID> void delete(Class<T> dataClass, Class<ID> idClass,
+				PreparedDelete<T> preparedDelete) throws SQLException {
+			Dao<T, ID> dao = DaoManager.createDao(connectionSource, dataClass);
+			dao.delete(preparedDelete);
+			
+		}
+
 	// 更新
 	public <T, ID> void update(T item, Class<T> dataClass, Class<ID> idClass)
 			throws SQLException {
