@@ -160,10 +160,11 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements OnTouchListen
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			Intent intent = new Intent();
+			/*Intent intent = new Intent();
 			intent.setClass(RecDetailsActivity.this, RecordActivity.class);
-			RecDetailsActivity.this.startActivity(intent);
+			RecDetailsActivity.this.startActivity(intent);*/
 			finish();
+			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
 		}
 
 	}
@@ -232,7 +233,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements OnTouchListen
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		// TODO Auto-generated method stub
-		if(e2.getX()-e1.getX()>verticalMinDistance && Math.abs(velocityX)>minVelocity&&--id>=1)
+		if(e2.getX()-e1.getX()>verticalMinDistance && Math.abs(velocityX)>minVelocity&&(--id)>=1)
 		{
 			Toast toast = Toast.makeText(RecDetailsActivity.this, id+"", Toast.LENGTH_SHORT);
 			toast.show();
@@ -245,7 +246,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements OnTouchListen
 			
 			
 		}
-		if(e1.getX()-e2.getX()>verticalMinDistance && Math.abs(velocityX)>minVelocity&&++id<=maxId)
+		if(e1.getX()-e2.getX()>verticalMinDistance && Math.abs(velocityX)>minVelocity&&(++id)<=maxId)
 		{
 			Toast toast = Toast.makeText(RecDetailsActivity.this, id+"", Toast.LENGTH_SHORT);
 			toast.show();

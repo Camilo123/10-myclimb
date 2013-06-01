@@ -172,8 +172,9 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 		// TODO Auto-generated method stub
 		if(arg1.getX()-arg0.getX()>verticalMinDistance && Math.abs(arg2)>minVelocity)
 		{
-			Intent intent=new Intent(RecordActivity.this, GpsObtainActivity.class);
-			startActivity(intent);
+			//Intent intent=new Intent(RecordActivity.this, GpsObtainActivity.class);
+			//startActivity(intent);
+			RecordActivity.this.finish();
 			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
 		
 		}
