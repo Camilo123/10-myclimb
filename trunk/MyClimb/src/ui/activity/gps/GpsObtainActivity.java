@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import tool.data.AddressByLatLng;
 import ui.activity.ActivityOfAF4Ad;
 import ui.viewModel.ModelErrorInfo;
 import ui.viewModel.ViewModel;
@@ -22,6 +23,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -134,6 +136,8 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 				if (flag == false) {
 					builder.setTitle("请输入行程名称");
 					builder.setView(editor);
+					editor.setText(AddressByLatLng.getAddressByLatLng(
+							currentLat, currentLon));
 					builder.setNegativeButton("取消", new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -155,6 +159,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 							// 记录开始高度值
 							startAltitude = currentAltitude;
 							flag = true;
+							sendStartStatusToGMap();
 							initControlsAndRegEvent();
 						}
 					});
@@ -170,6 +175,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 					stopLon = currentLon;
 					// 记录结束是纬度
 					stopLat = currentLat;
+					sendStopStatusToGMap();
 					writeDataToSqlite();
 					initControlsAndRegEvent();
 				}
@@ -178,7 +184,21 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 		});
 		
 	}
-
+	//发送开始状态广播给GoogleMap
+	public void sendStartStatusToGMap(){
+		Intent intent = new Intent();
+		intent.setAction("status");
+		intent.putExtra("status", true);
+		sendBroadcast(intent);
+	}
+	//发送结束状态广播给GoogleMap
+	public void sendStopStatusToGMap(){
+		Intent intent = new Intent();
+		intent.setAction("status");
+		intent.putExtra("status", false);
+		sendBroadcast(intent);
+	}
+	
 	// 跳转到记录界面
 	public void toRecActivity() {
 		toActivity(this, RecordActivity.class);
@@ -188,13 +208,12 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 	public void startGps() {
 		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-		Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-	
-		
-	//	Location location=locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		
-		
-		
+		Location location = locManager
+				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+		// Location
+		// location=locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
 		updateGpsView(location);
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000,
 				8, new LocationListener() {
@@ -225,8 +244,6 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements OnTouchListene
 				});
 	}
 
-	
-	
 	// 动态更新GPS数据
 	public void updateGpsView(Location newLocation) {
 		int altitude;
