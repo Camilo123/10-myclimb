@@ -7,12 +7,13 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "T_LatLngData")
 public class LatLngData {
+	
 	//设置ID为主键
 	@DatabaseField(generatedId = true)
 	private int dataID;
 	//设置开始记录时间作为标识
 	@DatabaseField(canBeNull = false)
-	private Date time;
+	private String time;
 	//纬度
 	@DatabaseField(canBeNull = true)
 	private double lat;
@@ -38,10 +39,10 @@ public class LatLngData {
 	public void setLng(double lng) {
 		this.lng = lng;
 	}
-	public Date getStartTime() {
+	public String getStartTime() {
 		return time;
 	}
-	public void setStartTime(Date time) {
+	public void setStartTime(String time) {
 		this.time = time;
 	}
 	
