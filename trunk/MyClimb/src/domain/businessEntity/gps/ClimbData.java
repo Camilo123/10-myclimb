@@ -7,6 +7,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "T_ClimbData")
 public class ClimbData {
+	
+	public ClimbData(){}
 	//ID号 设置主键
 	@DatabaseField(generatedId = true)
 	private int climbID;
