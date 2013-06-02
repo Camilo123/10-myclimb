@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "T_LatLngData")
 public class LatLngData {
-	
+	public LatLngData(){}
 	//设置ID为主键
 	@DatabaseField(generatedId = true)
 	private int dataID;
