@@ -71,6 +71,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements OnTouchListen
 	private double lat;
 	private double lon;
 	private String Name;
+	private String strTime;//全局变量方便取值
 	GestureDetector mGestureDetector=null;  //定义手势监听对象
 	private int verticalMinDistance = 10;   //最小触摸滑动距离
 	private int minVelocity         = 0;   //最小水平移动速度
@@ -145,8 +146,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements OnTouchListen
 			public void onClick(View v) {
 				Intent intent = new Intent(RecDetailsActivity.this,GMapActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putDouble("lat", lat);
-				bundle.putDouble("lon", lon);
+				bundle.putString("time", strTime);
 				bundle.putString("Marker",Name);
 				intent.putExtras(bundle);
 				startActivity(intent);
@@ -184,7 +184,8 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements OnTouchListen
 			tv_lon.setText(latitude.toString());
 			Date startTime = climbdata.getStartTime();
 			Date stopTime = climbdata.getStopTime();
-			tv_Date.setText(DateFormat.getDateInstance().format(startTime));
+			strTime = DateFormat.getDateInstance().format(startTime);
+			tv_Date.setText(strTime);
 			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 
 			String date1 = sdf.format(startTime);
