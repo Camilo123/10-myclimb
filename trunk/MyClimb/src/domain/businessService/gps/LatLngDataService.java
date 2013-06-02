@@ -15,7 +15,7 @@ import foundation.data.IDataContext;
 
 public class LatLngDataService implements ILatLngDataService{
 	private static String tag="LatLngDataService";
-	private IDataContext ctx;
+	private IDataContext ctx = null;
 	public LatLngDataService(){
 		ctx = new DataContext();
 	}
@@ -45,7 +45,7 @@ public class LatLngDataService implements ILatLngDataService{
 	
 
 	@Override
-	public boolean deleteByDate(Date time) {
+	public boolean deleteByDate(String time) {
 		DeleteBuilder<LatLngData, Integer> db;
 		try {
 			db = ctx.getDeleteBuilder(LatLngData.class, int.class);
@@ -60,7 +60,7 @@ public class LatLngDataService implements ILatLngDataService{
 	}
 
 	@Override
-	public List<LatLngData> getLatLngDataByTime(Date time) {
+	public List<LatLngData> getLatLngDataByTime(String time) {
 		try {
 			QueryBuilder<LatLngData,Integer> qb = ctx.getQueryBuilder(LatLngData.class, int.class);
 			qb.where().eq("time", time);
