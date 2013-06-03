@@ -65,8 +65,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 
   
     private static final LocationRequest REQUEST = LocationRequest.create()
-        .setInterval(3000)         // 60 seconds
-        .setFastestInterval(16)    // 16ms = 60fps
+        .setInterval(60000)         // 60 seconds
+        .setFastestInterval(20)    // 16ms = 60fps
         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     
     
