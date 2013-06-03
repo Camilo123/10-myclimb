@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -33,7 +34,9 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -76,6 +79,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	boolean flag = false;// 设置开始结束按钮标志
 	private int currentAltitude;// 获取当前高度
 	private SensorManager mSensorManager;// 定义SensorManager对象
+	
 	private double stopLon;// 结束时经度
 	private double stopLat;// 结束时纬度
 	private double currentLon;// 当前经度
@@ -84,6 +88,9 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	GestureDetector mGestureDetector = null; // 定义手势监听对象
 	private int verticalMinDistance = 10; // 最小触摸滑动距离
 	private int minVelocity = 0; // 最小水平移动速度
+
+	private ImageView compassNeedle;//指南针
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +112,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	@Override
 	protected void initControlsAndRegEvent() {
 		// 获取相应控件id
+		
 		bt_startAndStop = (ImageButton) findViewById(R.id.bt_startAndStop);
 		tv_altitude = (TextView) findViewById(R.id.tv_altitude);
 		tv_direction = (TextView) findViewById(R.id.tv_direction);
@@ -112,6 +120,8 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 		tv_longitude = (TextView) findViewById(R.id.tv_longitude);
 		tv_latitude = (TextView) findViewById(R.id.tv_latitude);
 		timer = (Chronometer) findViewById(R.id.timer);
+		
+		compassNeedle=(ImageView)findViewById(R.id.iv_compassNeedle);
 		climbDataService = new ClimbDataService();
 
 		// 构建对话框输入控件对象
@@ -288,6 +298,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	// 设置方向传感器监听类
 	SensorEventListener mSersorEventListener = new SensorEventListener() {
 		// 传感器值改变
+		private float predegree = 0;
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			float[] values = event.values;
@@ -309,6 +320,14 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 				tv_direction.setText("西北");
 			if (values[0] >= 300 && values[0] <= 360)
 				tv_direction.setText("北");
+				
+			
+			
+			RotateAnimation animation = new RotateAnimation(predegree, values[0], 
+			Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f); 
+			animation.setDuration(200); 
+			compassNeedle.startAnimation(animation); 
+			predegree=-values[0]; 
 
 		}
 

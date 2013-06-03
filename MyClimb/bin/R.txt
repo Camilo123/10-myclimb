@@ -210,8 +210,8 @@ int drawable common_signin_btn_text_normal_dark 0x7f020018
 int drawable common_signin_btn_text_normal_light 0x7f020019
 int drawable common_signin_btn_text_pressed_dark 0x7f02001a
 int drawable common_signin_btn_text_pressed_light 0x7f02001b
-int drawable compassneedle 0x7f02001c
-int drawable compassring 0x7f02001d
+int drawable compass 0x7f02001c
+int drawable compass_needle 0x7f02001d
 int drawable detail_back 0x7f02001e
 int drawable detail_delete 0x7f02001f
 int drawable detail_locat 0x7f020020
@@ -256,13 +256,13 @@ int id button1 0x7f07002f
 int id detail_layout 0x7f070006
 int id gps_main_layout 0x7f07001b
 int id hybrid 0x7f070004
-int id imageView1 0x7f070026
 int id imageView2 0x7f07001f
 int id imageView3 0x7f07001c
 int id imageView4 0x7f070023
 int id imageView5 0x7f070027
 int id imageView6 0x7f070022
 int id iv_back 0x7f07000f
+int id iv_compassNeedle 0x7f070028
 int id iv_delete 0x7f070012
 int id iv_loc 0x7f070011
 int id iv_record 0x7f07002d
@@ -296,7 +296,7 @@ int id timer 0x7f07001d
 int id tv_Date 0x7f070010
 int id tv_altitude 0x7f070025
 int id tv_altitudeDiff 0x7f07000d
-int id tv_direction 0x7f070028
+int id tv_direction 0x7f070026
 int id tv_lat 0x7f070017
 int id tv_latitude 0x7f070020
 int id tv_lon 0x7f070013
