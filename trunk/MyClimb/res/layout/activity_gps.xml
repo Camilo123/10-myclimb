@@ -146,21 +146,10 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="277dp"
+                            android:layout_height="240dp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentRight="true"
                             android:background="@drawable/text_view_border" >
-
-                            <TextView
-                                android:id="@+id/textView2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="23dp"
-                                android:text="M "
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textSize="50dp" />
 
                             <TextView
                                 android:id="@+id/tv_altitude"
@@ -168,9 +157,19 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignBaseline="@+id/textView2"
                                 android:layout_alignBottom="@+id/textView2"
-                                android:layout_marginRight="22dp"
-                                android:layout_toLeftOf="@+id/textView2"
+                                android:layout_alignParentLeft="true"
+                                android:layout_marginLeft="39dp"
                                 android:text="8"
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="50dp" />
+
+                            <TextView
+                                android:id="@+id/textView2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:text="M "
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="50dp" />
 
@@ -182,23 +181,6 @@
                             android:layout_weight="0.48"
                             android:background="@drawable/text_view_border" >
 
-                            <ImageView
-                                android:id="@+id/imageView1"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:scaleType="center"
-                                android:src="@drawable/compassring" />
-
-                            <ImageView
-                                android:id="@+id/imageView5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/compassneedle" />
-
                             <TextView
                                 android:id="@+id/tv_direction"
                                 android:layout_width="wrap_content"
@@ -207,6 +189,14 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="23dp"
                                 android:text="TextView" />
+
+                            <ImageView
+                                android:id="@+id/iv_compassNeedle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/compass" />
 
                         </RelativeLayout>
                     </LinearLayout>

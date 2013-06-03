@@ -7,58 +7,71 @@ android:layout_height="fill_parent">
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"  
      android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/main_radio"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        
+        >
+        
+
+        <RadioButton
+            android:id="@+id/radio_button0"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableLeft="@drawable/gps"
+            
+            android:tag="radio_button0"
+            android:text="@string/gps"
+            android:textSize="17sp" 
+            />
+
+        <RadioButton
+            android:id="@+id/radio_button1"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableLeft="@drawable/map"
+            android:tag="radio_button1"
+            android:text="@string/map"
+            android:textSize="17sp" 
+            />
+
+        <RadioButton
+            android:id="@+id/radio_button2"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableLeft="@drawable/weather"
+            android:tag="radio_button2"
+            android:text="@string/weather"
+            android:textSize="17sp" 
+            />
+
+        <RadioButton
+            android:id="@+id/radio_button3"
+            style="@style/main_tab_bottom"
+            android:layout_marginTop="2.0dip"
+            android:drawableLeft="@drawable/terrain"
+            android:tag="radio_button3"
+            android:text="@string/terrain"
+            android:textSize="17sp"
+            />
+    </RadioGroup>
     
   <FrameLayout android:id="@android:id/tabcontent"
        android:layout_width="fill_parent" 
        android:layout_height="0.0dip"
        android:layout_weight="1.02" >
+
   </FrameLayout> 
   <TabWidget android:id="@android:id/tabs" 
       android:layout_width="fill_parent"
       android:layout_height="wrap_content" 
       android:layout_weight="0.0" 
       android:visibility="gone" />
- 
-
-  
-        <RadioGroup 
-        	android:gravity="center_vertical" 
-        	android:layout_gravity="bottom" 
-        	android:orientation="horizontal" 
-        	android:id="@+id/main_radio" 
-        	android:background="@drawable/maintab_toolbar_bg" 
-        	android:layout_width="fill_parent" 
-        	android:layout_height="wrap_content">
-            <RadioButton 
-            	android:id="@+id/radio_button0" 
-            	android:tag="radio_button0" 
-            	android:layout_marginTop="2.0dip" 
-            	android:text="@string/gps" 
-            	android:drawableTop="@drawable/gps" 
-            	style="@style/main_tab_bottom" />
-            <RadioButton 
-            	android:id="@+id/radio_button1" 
-            	android:tag="radio_button1" 
-            	android:layout_marginTop="2.0dip" 
-            	android:text="@string/map" 
-            	android:drawableTop="@drawable/map" 
-            	style="@style/main_tab_bottom" />
-            <RadioButton 
-            	android:id="@+id/radio_button2" 
-            	android:tag="radio_button2" 
-            	android:layout_marginTop="2.0dip" 
-            	android:text="@string/weather" 
-            	android:drawableTop="@drawable/weather" 
-            	style="@style/main_tab_bottom" />
-            <RadioButton 
-            	android:id="@+id/radio_button3" 
-            	android:tag="radio_button3" 
-            	android:layout_marginTop="2.0dip" 
-            	android:text="@string/terrain" 
-            	android:drawableTop="@drawable/terrain" 
-            	style="@style/main_tab_bottom" />
-            
-        </RadioGroup>
  
 </LinearLayout> 
 </TabHost>
