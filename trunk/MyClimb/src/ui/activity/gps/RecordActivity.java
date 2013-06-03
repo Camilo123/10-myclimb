@@ -66,21 +66,13 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				
+					long arg3) {				
 				Intent intent=new Intent(RecordActivity.this, RecDetailsActivity.class);
 				Bundle bundle=new Bundle();
 				bundle.putInt("id", list.get(arg2).getClimbID());
 				bundle.putInt("count", list.size());
-				Toast toast = Toast.makeText(RecordActivity.this, list.get(arg2).getClimbID()+"", Toast.LENGTH_SHORT);
-				toast.show();
 				intent.putExtras(bundle);
 				startActivity(intent);
-				
-				
-				
-				
 			}
 		});
 		

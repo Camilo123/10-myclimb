@@ -88,7 +88,8 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	GestureDetector mGestureDetector = null; // 定义手势监听对象
 	private int verticalMinDistance = 10; // 最小触摸滑动距离
 	private int minVelocity = 0; // 最小水平移动速度
-
+	private ImageView iv_compass;
+	private float predegree = 0f;
 	private ImageView compassNeedle;//指南针
 	
 
@@ -123,7 +124,6 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 		
 		compassNeedle=(ImageView)findViewById(R.id.iv_compassNeedle);
 		climbDataService = new ClimbDataService();
-
 		// 构建对话框输入控件对象
 		editor = new EditText(this);
 		builder = new AlertDialog.Builder(this);
@@ -154,16 +154,17 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 					RequireAddressAsyncTask asyncTask = new RequireAddressAsyncTask(
 							editor);
 					asyncTask.execute();
-					//点击自动EditText自动全选
-					editor.setOnTouchListener(new OnTouchListener() {					
+					// 点击自动EditText自动全选
+					editor.setOnTouchListener(new OnTouchListener() {
 						@Override
 						public boolean onTouch(View v, MotionEvent event) {
 							editor.selectAll();
-							((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).showSoftInput(v, 0);
+							((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+									.showSoftInput(v, 0);
 							return true;
 						}
-					});	
-					
+					});
+
 					builder.setNegativeButton("取消", new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -298,7 +299,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	// 设置方向传感器监听类
 	SensorEventListener mSersorEventListener = new SensorEventListener() {
 		// 传感器值改变
-		private float predegree = 0;
+		
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 			float[] values = event.values;
@@ -323,7 +324,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 				
 			
 			
-			RotateAnimation animation = new RotateAnimation(predegree, values[0], 
+			RotateAnimation animation = new RotateAnimation(predegree, -values[0], 
 			Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f); 
 			animation.setDuration(200); 
 			compassNeedle.startAnimation(animation); 
@@ -444,10 +445,11 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 		// TODO Auto-generated method stub
 		return mGestureDetector.onTouchEvent(arg1);
 	}
+
 	/**
 	 * 
 	 * 使用多线性异步使用访问网络，进行地址反向解析查询
-	 *
+	 * 
 	 */
 	class RequireAddressAsyncTask extends AsyncTask<Void, Void, String> {
 		private EditText editor;
@@ -459,7 +461,8 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 		@Override
 		protected String doInBackground(Void... params) {
 			String result = null;
-			result = AddressByLatLng.getAddressByLatLng(currentLat, currentLon);
+			result = AddressByLatLng.getAddressByLatLng(currentLat, currentLon,
+					1);
 			return result;
 		}
 
