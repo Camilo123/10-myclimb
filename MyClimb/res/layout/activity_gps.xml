@@ -3,7 +3,7 @@
     android:id="@+id/gps_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1"
+    android:background="@drawable/background"
     android:orientation="horizontal" >
     
      <LinearLayout
@@ -149,19 +149,8 @@
                             android:layout_height="240dp"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentRight="true"
+                            android:layout_weight="0.16"
                             android:background="@drawable/text_view_border" >
-
-                            <TextView
-                                android:id="@+id/tv_altitude"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignBaseline="@+id/textView2"
-                                android:layout_alignBottom="@+id/textView2"
-                                android:layout_alignParentLeft="true"
-                                android:layout_marginLeft="39dp"
-                                android:text="8"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:textSize="50dp" />
 
                             <TextView
                                 android:id="@+id/textView2"
@@ -170,6 +159,18 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:text="M "
+                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textSize="50dp" />
+
+                            <TextView
+                                android:id="@+id/tv_altitude"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@+id/textView2"
+                                android:layout_alignBottom="@+id/textView2"
+                                android:layout_alignParentLeft="true"
+                                android:layout_marginLeft="26dp"
+                                android:text="8"
                                 android:textAppearance="?android:attr/textAppearanceLarge"
                                 android:textSize="50dp" />
 
