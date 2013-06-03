@@ -8,13 +8,11 @@ package ui.activity.GoogleMap;
 
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
 
-import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -37,20 +35,32 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mysport.ui.R;
 
+import domain.businessEntity.gps.LatLngData;
+import domain.businessService.gps.ILatLngDataService;
+import domain.businessService.gps.LatLngDataService;
+
 public class GMapActivity extends FragmentActivity 
 implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
  
-	//代码还需优化 改动  所以略显乱
 
 
     private Polyline mMutablePolyline;
     //经纬度
     private double latitude;
     private double longitude;
-    private String Name;
+    private String strTime;
     private LocationClient mLocationClient;
     
+    //标示历史记录轨迹 和 当前轨迹
+    private final static int  RECROULT=1;
+    private final static int  NOWROUTE = 2;
+    
+    private ILatLngDataService latLngDataService = null;
+    
     private List<LatLng> points = new ArrayList<LatLng>();
+    
+    private List<LatLngData> dataList = new ArrayList<LatLngData>();
+    
     
     private boolean status;//监听第一个界面广播过来的开始或结束的状态 true为开始，false为停止
     private GoogleMap mMap;
@@ -58,7 +68,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 
   
     private static final LocationRequest REQUEST = LocationRequest.create()
-        .setInterval(5000)         // 5 seconds
+        .setInterval(3000)         // 60 seconds
         .setFastestInterval(16)    // 16ms = 60fps
         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     
@@ -78,39 +88,28 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
             // 当重启该Activity 时候，不需要要在重新实例化 就可以得到之前的activity
             mMap = mapFragment.getMap();
         }
-        
+        latLngDataService = new LatLngDataService();
         setUpMapIfNeeded();
         
-//      points.add(new LatLng(20,120));
-//      points.add(new LatLng(25,125));
-//      points.add(new LatLng(30,130));
-//      points.add(new LatLng(35,135));
+        setRecRoute();
 
-    //  drawRouteOnMap();
     }
-    
-//    class draw implements Runnable{
-//
-//		@Override
-//		public void run() {
-//			// TODO Auto-generated method stub
-//			drawRouteOnMap();
-//		
-//		}
-//    }
-    
-    public void setMarker(){
+
+    public void setRecRoute(){
         //获取由RecDetailsActivity传过来的位置信息
 		Bundle bundle = getIntent().getExtras();
 		if(bundle != null)
 		{
-			latitude = bundle.getDouble("lat");
-			longitude = bundle.getDouble("lon");
-			Name = bundle.getString("Marker");
-	       	 mMap.addMarker(new MarkerOptions()
-   				.position(new LatLng(longitude,latitude)).title(Name));
-	       	 
-	       mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(longitude,latitude),15));   	
+//			latitude = bundle.getDouble("lat");
+//			longitude = bundle.getDouble("lon");
+//			Name = bundle.getString("Marker");
+//			mMap.addMarker(new MarkerOptions()
+//   				.position(new LatLng(longitude,latitude)).title(Name));
+//	       	 
+//	       mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(longitude,latitude),15));   	
+			strTime = bundle.getString("time");
+			dataList = latLngDataService.getLatLngDataByTime(strTime);
+			drawRouteOnMap(RECROULT);
 		}
     }
     
@@ -161,7 +160,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
       }
 
 
-    
+    //添加经纬度点
     private void addLatLngPoint(double longitude,double latitude){
     	double lat = latitude;
     	double lon = longitude;
@@ -272,6 +271,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
                 setUpMap();
             }
         }
+        
     }
 
 
@@ -280,69 +280,77 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
         mUiSettings = mMap.getUiSettings();
     }
 
-    private void drawRouteOnMap(){
+    private void drawRouteOnMap(int mode){
         if(points.size() >= 2)
         {
-		    	PolylineOptions options = new PolylineOptions();
-		//        int radius = 5;
-		//        int numPoints = 100;
-		//        double phase = 2 * Math.PI / numPoints;
-		//        for (int i = 0; i <= numPoints; i++) {
-		//            options.add(new LatLng(SYDNEY.latitude + radius * Math.sin(i * phase),
-		//                    SYDNEY.longitude + radius * Math.cos(i * phase)));
-		//        }
-		     
-		        
-		//        options.add(new LatLng(26,119 ));
-		        
-		    for(int i=0;i<points.size();i++)
-		    {
-		    	options.add(points.get(i));
-				String s2 = Double.toString(points.get(i).longitude)+"    "+Double.toString(points.get(i).latitude);
-				Toast.makeText(getApplicationContext(), "坐标 "+ i+":  " + s2,
-		 		     Toast.LENGTH_SHORT).show();
-		    	
+		    if(mode == NOWROUTE){	
+	        	PolylineOptions options = new PolylineOptions();
+	
+	  	    	
+	//		    for(int i=0;i<points.size();i++)
+	//		    {
+	//		    	options.add(points.get(i));
+	//				String s2 = Double.toString(points.get(i).longitude)+"    "+Double.toString(points.get(i).latitude);
+	//				Toast.makeText(getApplicationContext(), "坐标 "+ i+":  " + s2,
+	//		 		     Toast.LENGTH_SHORT).show();
+	//		    	
+	//		    }
+			    			    
+			       options.addAll(points);
+			        
+			        mMutablePolyline = mMap.addPolyline(options
+			                .color(Color.RED)
+			                .width(2));
 		    }
+		    if(mode == RECROULT){
+		    	Iterator<LatLngData> it = dataList.iterator();
+		    	PolylineOptions RecOptions = new PolylineOptions();
 		    	
-		    	
-		      //  options.addAll(points);
-		        
-		        mMutablePolyline = mMap.addPolyline(options
-		                .color(Color.RED)
-		                .width(3));
+		    	while(it.hasNext()){
+		    		LatLngData data = it.next();
+		    		RecOptions.add(new LatLng(data.getLat(),data.getLng()));
+		    	}
+		        mMutablePolyline = mMap.addPolyline(RecOptions
+		                .color(Color.GREEN)
+		                .width(2));
+		    }
         }
     }
 
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		latitude = location.getLatitude();
-		longitude = location.getLongitude();
+		if(status){
 		
-		BigDecimal   b1   =   new   BigDecimal(latitude);  
-		BigDecimal   b2   =   new   BigDecimal(longitude);
-		
-		double   f1   =   b1.setScale(4,   BigDecimal.ROUND_HALF_UP).doubleValue();  
-		double   f2   =   b2.setScale(4,   BigDecimal.ROUND_HALF_UP).doubleValue(); 
-		
-		addLatLngPoint(f1,f2);
-		
-//		String s2 = Double.toString(longitude)+"    "+Double.toString(latitude);
-//		Toast.makeText(getApplicationContext(), "坐标：    " + s2,
-// 		     Toast.LENGTH_SHORT).show();
-		
-		drawRouteOnMap();
-		
-//		String s1 = Integer.toString(points.size());
-//		Toast.makeText(getApplicationContext(), "长度:" + s1,
-//	 		     Toast.LENGTH_SHORT).show();
-		
+				latitude = location.getLatitude();
+				longitude = location.getLongitude();
+				
+				addLatLngPoint(latitude,longitude);
+				
+				//划线
+				drawRouteOnMap(NOWROUTE);
+				
+				//将记录下的点存入数据库
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				String time = sf.format(new java.util.Date());
+				
+				LatLngData data = new LatLngData();
+				
+				data.setLat(latitude);
+				data.setLng(longitude);
+				data.setStartTime(time);
+			
+	//			Toast.makeText(getApplicationContext(), data.toString(),Toast.LENGTH_LONG).show();
+				
+				latLngDataService.addLatLngData(data);
+
+		}
 		
 	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub0
 	}
 	
 	  @Override
