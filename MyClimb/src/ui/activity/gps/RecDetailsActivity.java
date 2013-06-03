@@ -183,9 +183,10 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements OnTouchListen
 
 			tv_lon.setText(latitude.toString());
 			Date startTime = climbdata.getStartTime();
-			Date stopTime = climbdata.getStopTime();
-			strTime = DateFormat.getDateInstance().format(startTime);
-			tv_Date.setText(strTime);
+			Date stopTime = climbdata.getStopTime();		
+			tv_Date.setText(DateFormat.getDateInstance().format(startTime));
+			SimpleDateFormat tmp = new SimpleDateFormat("yyyy-MM-dd");
+			strTime = tmp.format(startTime);
 			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 
 			String date1 = sdf.format(startTime);
