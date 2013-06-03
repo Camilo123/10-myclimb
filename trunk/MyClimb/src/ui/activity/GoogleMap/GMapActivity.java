@@ -47,6 +47,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
     //经纬度
     private double latitude;
     private double longitude;
+    
+	private int flag = 0;
     private LatLngData data;
     private String strTime;
     private LocationClient mLocationClient;
@@ -88,6 +90,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
         
         latLngDataService = new LatLngDataService();
         setUpMapIfNeeded();
+        
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(29,113),2));
         
         setRecRoute();
 
@@ -218,10 +222,19 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
+
 		if(status){
-		
+				
+				
 				latitude = location.getLatitude();
 				longitude = location.getLongitude();
+				
+				if(flag == 0 ){
+					 mMap.addMarker(new MarkerOptions()
+		             .position(new LatLng(latitude,longitude))
+		             .title("开始"));
+					 flag = 1;
+				}
 				
 				addLatLngPoint(latitude,longitude);
 				
@@ -239,7 +252,15 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 				data.setStartTime(time);
 			
 				latLngDataService.addLatLngData(data);
+		}else{
+			if(flag == 1){
+				mMap.addMarker(new MarkerOptions()
+	             .position(new LatLng(latitude,longitude))
+	             .title("结束"));
+				 flag = 2;
+			}
 		}
+		
 	}
 
 	@Override
