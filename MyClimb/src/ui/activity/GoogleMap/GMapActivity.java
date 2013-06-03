@@ -29,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -41,19 +42,15 @@ import domain.businessService.gps.LatLngDataService;
 
 public class GMapActivity extends FragmentActivity 
 implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
- 
-
 
     private Polyline mMutablePolyline;
     //经纬度
     private double latitude;
     private double longitude;
+    private LatLngData data;
     private String strTime;
     private LocationClient mLocationClient;
     
-    //标示历史记录轨迹 和 当前轨迹
-    private final static int  RECROULT=1;
-    private final static int  NOWROUTE = 2;
     
     private ILatLngDataService latLngDataService = null;
     
@@ -88,6 +85,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
             // 当重启该Activity 时候，不需要要在重新实例化 就可以得到之前的activity
             mMap = mapFragment.getMap();
         }
+        
         latLngDataService = new LatLngDataService();
         setUpMapIfNeeded();
         
@@ -100,16 +98,32 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 		Bundle bundle = getIntent().getExtras();
 		if(bundle != null)
 		{
-//			latitude = bundle.getDouble("lat");
-//			longitude = bundle.getDouble("lon");
-//			Name = bundle.getString("Marker");
-//			mMap.addMarker(new MarkerOptions()
-//   				.position(new LatLng(longitude,latitude)).title(Name));
-//	       	 
-//	       mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(longitude,latitude),15));   	
+	
 			strTime = bundle.getString("time");
 			dataList = latLngDataService.getLatLngDataByTime(strTime);
-			drawRouteOnMap(RECROULT);
+			
+	    	Iterator<LatLngData> it = dataList.iterator();
+	    	PolylineOptions RecOptions = new PolylineOptions();
+	    	
+	    	 mMap.addMarker(new MarkerOptions()
+             .position(new LatLng(it.next().getLat(),it.next().getLng()))
+             .title("开始"));
+	    	
+	    	//LatLngData data;
+	    	while(it.hasNext()){
+	    		data = it.next();
+	    		RecOptions.add(new LatLng(data.getLat(),data.getLng()));
+	    	}
+	    	
+	    	 
+	    	mMap.addMarker(new MarkerOptions()
+             .position(new LatLng(data.getLat(),data.getLng()))
+             .title("结束"));
+	    	
+	    	
+	        mMutablePolyline = mMap.addPolyline(RecOptions
+	                .color(Color.GREEN)
+	                .width(2));
 		}
     }
     
@@ -128,12 +142,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 //            mMap.setMapType(MAP_TYPE_TERRAIN);
             
             
-//            Location location = new Location("LongPressLocationProvider");
-//            location.setLatitude(point.latitude);
-//            location.setLongitude(point.longitude);
-//            location.setAccuracy(100);
-//            mListener.onLocationChanged(location);
-//            
             
             }
         status = StatusReceiver.getStatus();
@@ -159,99 +167,14 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
         }
       }
 
-
     //添加经纬度点
     private void addLatLngPoint(double longitude,double latitude){
     	double lat = latitude;
     	double lon = longitude;
 		
     	points.add(new LatLng(lon,lat));
-    	
     }
-    
- /*   //想在这里取得定位信息
-    
-//    private void myLocation(){
-//    	
-//    	LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//
-//		Location location = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//	
-//		
-//		latitude = location.getLatitude();
-//		longitude = location.getLongitude();
-//		
-//		addLatLngPoint(latitude,longitude);	
-//		
-//	 
-//			LocationListener locationListener = new LocationListener() {
-//				
-//				//当坐标改变时触发此函数，如果Provider传进相同的坐标，它就不会被触发 
-//				@Override
-//				public void onLocationChanged(Location location) {
-//					if (location != null) {   
-//						
-//						latitude = location.getLatitude();
-//						longitude = location.getLongitude();  
-//					}
-//					
-//					addLatLngPoint(latitude,longitude);
-//				}
-//			};
-//			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000, 0,(android.location.LocationListener) locationListener);   
-//			if(location != null){   
-//				latitude = location.getLatitude(); //经度   
-//				longitude = location.getLongitude(); //纬度
-//				
-//				addLatLngPoint(latitude,longitude);
-//			}   
-//		}
-//    	
-//    
-////    locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-////    currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-////    if( currentLocation == null){
-////    currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-////    }
-////    
-//    
-//    
-////    	Toast.makeText(getApplicationContext(), "222",
-////			     Toast.LENGTH_SHORT).show();
-////    	
-////    	LocationManager locationManager =(LocationManager)getSystemService(Context.LOCATION_SERVICE);
-////    	if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-////    		Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-////    		if(location !=null){
-////    			latitude = location.getLatitude();
-////    			longitude = location.getLongitude();
-////    			
-////    			addLatLngPoint(latitude,longitude);
-////    			
-////    			String s1 = Double.toString(latitude)+Double.toString(longitude);
-////    			Toast.makeText(getApplicationContext(), "默认1 + s1",
-////    				     Toast.LENGTH_SHORT).show();
-////    		}
-////    	}else{
-////
-////    	locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 8,new LocationListener(){
-////
-////			@Override
-////			public void onLocationChanged(Location location) {
-////				// TODO Auto-generated method stub
-////				latitude = location.getLatitude();
-////    			longitude = location.getLongitude();
-////				addLatLngPoint(latitude,longitude);
-////				String s2 = Double.toString(latitude)+Double.toString(longitude);
-////    			Toast.makeText(getApplicationContext(), "默认2 + s2",
-////    				     Toast.LENGTH_SHORT).show();
-////			}
-////			
-////    		};
-////    	}
-//  
-  
-    */
+
     private void setUi(){
         mUiSettings.setZoomControlsEnabled(true);
         mUiSettings.setCompassEnabled(true);
@@ -271,7 +194,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
                 setUpMap();
             }
         }
-        
     }
 
 
@@ -280,40 +202,16 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
         mUiSettings = mMap.getUiSettings();
     }
 
-    private void drawRouteOnMap(int mode){
+    private void drawRouteOnMap(){
         if(points.size() >= 2)
         {
-		    if(mode == NOWROUTE){	
 	        	PolylineOptions options = new PolylineOptions();
-	
-	  	    	
-	//		    for(int i=0;i<points.size();i++)
-	//		    {
-	//		    	options.add(points.get(i));
-	//				String s2 = Double.toString(points.get(i).longitude)+"    "+Double.toString(points.get(i).latitude);
-	//				Toast.makeText(getApplicationContext(), "坐标 "+ i+":  " + s2,
-	//		 		     Toast.LENGTH_SHORT).show();
-	//		    	
-	//		    }
 			    			    
 			       options.addAll(points);
 			        
 			        mMutablePolyline = mMap.addPolyline(options
 			                .color(Color.RED)
 			                .width(2));
-		    }
-		    if(mode == RECROULT){
-		    	Iterator<LatLngData> it = dataList.iterator();
-		    	PolylineOptions RecOptions = new PolylineOptions();
-		    	
-		    	while(it.hasNext()){
-		    		LatLngData data = it.next();
-		    		RecOptions.add(new LatLng(data.getLat(),data.getLng()));
-		    	}
-		        mMutablePolyline = mMap.addPolyline(RecOptions
-		                .color(Color.GREEN)
-		                .width(2));
-		    }
         }
     }
 
@@ -328,7 +226,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 				addLatLngPoint(latitude,longitude);
 				
 				//划线
-				drawRouteOnMap(NOWROUTE);
+				drawRouteOnMap();
 				
 				//将记录下的点存入数据库
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -340,12 +238,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 				data.setLng(longitude);
 				data.setStartTime(time);
 			
-	//			Toast.makeText(getApplicationContext(), data.toString(),Toast.LENGTH_LONG).show();
-				
 				latLngDataService.addLatLngData(data);
-
 		}
-		
 	}
 
 	@Override
@@ -364,5 +258,6 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
 	}
-	
 }
+
+
