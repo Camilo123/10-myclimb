@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import tool.data.AddressByLatLng;
 import ui.activity.ActivityOfAF4Ad;
 import ui.viewModel.ModelErrorInfo;
 import ui.viewModel.ViewModel;
@@ -54,6 +53,7 @@ import domain.businessEntity.gps.ClimbData;
 import domain.businessEntity.gps.LatLngData;
 import domain.businessService.gps.ClimbDataService;
 import domain.businessService.gps.IClimbDataService;
+import foundation.webservice.GeocodeService;
 
 /**
  * @author DreamTeam 沈志鹏
@@ -91,7 +91,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	private ImageView iv_compass;
 	private float predegree = 0f;
 	private ImageView compassNeedle;//指南针
-	
+	private String city;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 		LinearLayout mainlayout = (LinearLayout) findViewById(R.id.gps_main_layout);
 		mainlayout.setOnTouchListener(this);
 		mainlayout.setLongClickable(true);
-
+		
 	}
 
 	@Override
@@ -360,6 +360,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	protected void onPause() {
 		// 程序暂停时注销监听器
 		mSensorManager.unregisterListener(mSersorEventListener);
+		sendBroadcastToWeather();
 		super.onStop();
 	}
 
@@ -452,27 +453,33 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	 * 
 	 */
 	class RequireAddressAsyncTask extends AsyncTask<Void, Void, String> {
+
 		private EditText editor;
 
 		public RequireAddressAsyncTask(EditText editor) {
 			this.editor = editor;
 		}
-
 		@Override
 		protected String doInBackground(Void... params) {
 			String result = null;
-			result = AddressByLatLng.getAddressByLatLng(currentLat, currentLon,
+			result = GeocodeService.getAddressByLatLng(currentLat, currentLon,
 					1);
 			return result;
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-
 			editor.setText(result);
-
 		}
 
 	}
+	public void sendBroadcastToWeather(){
+		Intent intent = new Intent();
+		intent.setAction("LatLng");
+		intent.putExtra("Lat", currentLat);
+		intent.putExtra("Lng", currentLon);
+		sendBroadcast(intent);
+	}
+	
 
 }

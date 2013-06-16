@@ -192,7 +192,7 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 
     private void setUpMapIfNeeded() {
         if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+			mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
             if (mMap != null) {
                 setUpMap();
