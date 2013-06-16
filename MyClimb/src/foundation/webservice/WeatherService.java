@@ -1,4 +1,4 @@
-package domain.businessService.gps;
+package foundation.webservice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-public class WebService {
+public class WeatherService {
 	   //定义Web Service 的命名空间
 		static final String SERVICE_NS = "http://WebXml.com.cn/";
 		//定义Web Service提供服务的URL

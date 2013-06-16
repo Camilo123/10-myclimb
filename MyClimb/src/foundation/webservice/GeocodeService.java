@@ -1,4 +1,4 @@
-package tool.data;
+package foundation.webservice;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AddressByLatLng {
+public class GeocodeService {
 
 	public static JSONObject geocodeAddr(double lat, double lng) {
 
@@ -32,7 +32,7 @@ public class AddressByLatLng {
 			while ((sCurrentLine = bufferedReader.readLine()) != null) {
 				sTotalString.append(sCurrentLine);
 			}
-			System.out.println(sTotalString);
+			//System.out.println(sTotalString);
 			bufferedReader.close();
 			httpConnection.disconnect(); // 关闭http连接
 

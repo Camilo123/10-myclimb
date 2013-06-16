@@ -64,6 +64,7 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 		recordlayout.setLongClickable(true);
 		recList.setOnItemClickListener(new OnItemClickListener() {
 
+			
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {				

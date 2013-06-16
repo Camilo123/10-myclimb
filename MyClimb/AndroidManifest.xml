@@ -55,11 +55,17 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
-        
         <activity
             android:name="ui.activity.weather.WeatherActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
+        </activity>
+        <!-- 用于sso回调activity -->
+        <activity
+            android:name="com.baidu.sharesdk.PlatformSsoCallBackActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
         </activity>
 
         <receiver android:name="ui.activity.gps.GpsObtainActivity" >
@@ -68,10 +74,15 @@
         </receiver>
         <receiver android:name="ui.activity.gps.RecDetailActivity" >
         </receiver>
-      
         <receiver android:name="ui.activity.GoogleMap.StatusReceiver" >
             <intent-filter>
                 <action android:name="status" />
+            </intent-filter>
+        </receiver>
+        
+        <receiver android:name="ui.activity.weather.LatLngReceiver" >
+            <intent-filter  android:priority="1000">
+                <action android:name="LatLng" />
             </intent-filter>
         </receiver>
 

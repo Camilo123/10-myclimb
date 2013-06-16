@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/imageView1"
                 android:layout_alignLeft="@+id/tv_today_Temp"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
@@ -197,7 +197,7 @@
                 android:layout_alignLeft="@+id/tv_tomorrow_Temp"
                 android:layout_alignTop="@+id/imageView1"
                
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
              <TextView
                 android:id="@+id/tv_tomorrow_Temp"
