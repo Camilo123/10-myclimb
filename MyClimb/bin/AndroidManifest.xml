@@ -123,8 +123,15 @@
             android:label="tmp_lab_weather"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <!--   android:name="ui.activity.map.basemap" -->
         <activity
-            android:name="ui.activity.GoogleMap.GoogleMapActivity"
+           android:name="ui.activity.GoogleMap.GoogleMapActivity"
+            android:label="tmp_lab_terrain"
+            android:screenOrientation="portrait" >
+        </activity>
+           <activity
+            android:name="ui.activity.map.basemap"
             android:label="tmp_lab_terrain"
             android:screenOrientation="portrait" >
         </activity>

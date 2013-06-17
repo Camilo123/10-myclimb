@@ -47,7 +47,7 @@ public class GoogleMapActivity extends FragmentActivity {
 	    }
 	 private void setUpMapIfNeeded() {
 	        if (mMap == null) {
-	            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+	            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapGoogle))
 	                    .getMap();
 	        }
 	    }
