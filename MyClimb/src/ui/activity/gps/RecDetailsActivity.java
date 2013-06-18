@@ -97,7 +97,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 
 	private ImageView iv_share;
 
-	/*******************************************************************/
+	/**********************社会化分享组件定义***********************************/
 	private BaiduSocialShare socialShare;
 	private BaiduSocialShareUserInterface socialShareUi;
 	private final static String appKey = BaiduSocialShareConfig.mbApiKey;
@@ -158,7 +158,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		
 		//设置分享内容
 				picContent = new ShareContent();
-				picContent.setContent("MyClimb：我刚刚登上了"+climbdata.getClimbName()+"!"+"这是我的行程记录");
+				picContent.setContent("MyClimb:我刚刚登上了"+climbdata.getClimbName()+"!"+"这是我的行程记录");
 				picContent.setTitle("MyClimb");
 				picContent.setUrl("http://weibo.com/lovelss310");
 		// 设置删除键监听事件
@@ -364,7 +364,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		return mGestureDetector.onTouchEvent(event);
 	}
 
-	/*****************************************/
+	/***************截屏分享**************/
 	public void printscreen_share() {
 		View view1 = getWindow().getDecorView();
 		Display display = getWindowManager().getDefaultDisplay();
