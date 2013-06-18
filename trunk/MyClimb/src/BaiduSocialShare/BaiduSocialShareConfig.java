@@ -2,7 +2,7 @@ package BaiduSocialShare;
 
 public class BaiduSocialShareConfig {
 
-    public final static String mbApiKey = "dHwDe5TTTtFEv4MOgoeTGLvX"; //online env 
+    public final static String mbApiKey = "OYt9Ios9cy7vM09e64AIIjFE"; //online env 
     //public final static String mbApiKey = "OFVG92agjghQKdUBz9Z4ENT7"; //rd env
     //public final static String mbApiKey = "GWSu6PzLmbXCWL9C3LmoCX5u"; //outside env rd
     //public final static String mbApiKey = "neEFzglkMG2QDRrcvYo6pYGa";  //offline env

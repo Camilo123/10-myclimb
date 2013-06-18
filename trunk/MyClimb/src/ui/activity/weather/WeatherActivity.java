@@ -1,5 +1,7 @@
 package ui.activity.weather;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.ksoap2.serialization.SoapObject;
@@ -18,6 +20,7 @@ import com.mysport.ui.R;
 import foundation.webservice.GeocodeService;
 import foundation.webservice.WeatherService;
 
+import tool.SunriseSunset.SunriseSunset;
 import ui.activity.ActivityOfAF4Ad;
 import ui.viewModel.ModelErrorInfo;
 import ui.viewModel.ViewModel;
@@ -68,6 +71,9 @@ public class WeatherActivity extends ActivityOfAF4Ad {
 
 		RequireWeatherAsyncTask require = new RequireWeatherAsyncTask();
 		require.execute();
+		SunriseAndSetAsyncTask calculate = new SunriseAndSetAsyncTask();
+	
+		calculate.execute();
 
 	}
 
@@ -106,7 +112,6 @@ public class WeatherActivity extends ActivityOfAF4Ad {
 			// TODO Auto-generated method stub
 			showWeather(detail);
 		}
-
 	}
 
 	private void showWeather(SoapObject detail) {
@@ -222,5 +227,32 @@ public class WeatherActivity extends ActivityOfAF4Ad {
 			return R.drawable.a_31;
 		return 0;
 	}
+	
+	class SunriseAndSetAsyncTask extends AsyncTask<Void,Void,Date[]>{
+		private double lat;
+		private double lng;
+		@Override
+		protected Date[] doInBackground(Void... params) {
+//			lat = LatLngReceiver.getLat();
+//			lng = LatLngReceiver.getLng();
+			lat = 26.0833;
+			lng = 119.3000;
+			Date now = new Date();
+			Date[] riseSet = new Date[2];
+			SunriseSunset sunriseSunset = new SunriseSunset(lat, lng, now, 0);
+			riseSet[0]=sunriseSunset.getSunrise();
+			riseSet[1]=sunriseSunset.getSunset();		
+			return riseSet;
+		}
 
+		@Override
+		protected void onPostExecute(Date[] result) {
+			SimpleDateFormat sf = new SimpleDateFormat("hh:mm:ss");
+			today_sunrisetime.setText(sf.format(result[0]));
+			today_sunsettime.setText(sf.format(result[1]));
+		}
+		
+		
+	}
+	
 }

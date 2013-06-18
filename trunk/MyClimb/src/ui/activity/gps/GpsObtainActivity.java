@@ -24,11 +24,13 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.os.SystemClock;
 import android.text.InputType;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -92,6 +94,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	private float predegree = 0f;
 	private ImageView compassNeedle;//指南针
 	private String city;
+	private boolean isExit = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 
 	@Override
 	protected void initControlsAndRegEvent() {
+		
 		// 获取相应控件id
 		
 		bt_startAndStop = (ImageButton) findViewById(R.id.bt_startAndStop);
@@ -363,7 +367,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 		sendBroadcastToWeather();
 		super.onStop();
 	}
-
+	
 	// 数据写入数据库操作
 	public void writeDataToSqlite() {
 		ClimbData climbData = new ClimbData();

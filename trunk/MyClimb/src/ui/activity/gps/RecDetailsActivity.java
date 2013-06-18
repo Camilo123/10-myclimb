@@ -1,5 +1,6 @@
 package ui.activity.gps;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,11 +10,15 @@ import java.util.List;
 import BaiduSocialShare.BaiduSocialShareConfig;
 import android.R.integer;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.Display;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,6 +39,7 @@ import com.baidu.sharesdk.SocialShareLogger;
 import com.baidu.sharesdk.Utility;
 import com.baidu.sharesdk.ui.BaiduSocialShareUserInterface;
 import com.mysport.ui.R;
+
 
 import domain.businessEntity.gps.ClimbData;
 import domain.businessService.gps.ClimbDataService;
@@ -78,6 +84,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	private ImageView iv_location;
 	private int id = -1;
 	private int maxId = -1;
+
 	// 经纬度全局变量方便传值
 	private double lat;
 	private double lon;
@@ -102,29 +109,11 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_details);
+		//初始化社会化主件
 		socialShare = BaiduSocialShare.getInstance(this, appKey);
-		socialShare.supportWeiBoSso(BaiduSocialShareConfig.SINA_SSO_APP_KEY);
-		socialShare.authorize(this, Utility.SHARE_TYPE_SINA_WEIBO,
-				new ShareListener() {
-
-					@Override
-					public void onError(BaiduShareException arg0) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onAuthComplete(Bundle arg0) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onApiComplete(String arg0) {
-						// TODO Auto-generated method stub
-
-					}
-				});
+		//socialShare.supportWeiBoSso(BaiduSocialShareConfig.SINA_SSO_APP_KEY);
+		socialShareUi = socialShare.getSocialShareUserInterfaceInstance();
+		SocialShareLogger.on();
 	}
 
 	@Override
@@ -166,7 +155,12 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 			throw new RuntimeException("查看信息出错");
 		}
 		showActivity(climbdata);
-
+		
+		//设置分享内容
+				picContent = new ShareContent();
+				picContent.setContent("MyClimb：我刚刚登上了"+climbdata.getClimbName()+"!"+"这是我的行程记录");
+				picContent.setTitle("MyClimb");
+				picContent.setUrl("http://weibo.com/lovelss310");
 		// 设置删除键监听事件
 		iv_delete.setOnClickListener(new View.OnClickListener() {
 
@@ -193,9 +187,40 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 				startActivity(intent);
 			}
 		});
+		
+		//分享按钮监听事件
+		iv_share.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				printscreen_share();
+				
+			}
+		});
 
 	}
+	public void showUi(){
+		socialShareUi.showShareMenu(this, picContent, Utility.SHARE_THEME_STYLE, new ShareListener(){
 
+			@Override
+			public void onApiComplete(String arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onAuthComplete(Bundle arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onError(BaiduShareException arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
 	class BackToRecord implements OnClickListener {
 
 		@Override
@@ -270,6 +295,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		return false;
 	}
 
+
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
@@ -339,35 +365,52 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	}
 
 	/*****************************************/
-	public void pic_share_theme_style(View v) {
+	public void printscreen_share() {
+		View view1 = getWindow().getDecorView();
+		Display display = getWindowManager().getDefaultDisplay();
+		view1.layout(0, 0, display.getWidth(), display.getHeight());
+		view1.setDrawingCacheEnabled(true);
+		Bitmap bitmap = Bitmap.createBitmap(view1.getDrawingCache());
+		picContent.setImageUrl(null);
+		picContent.addImageByContent(Bitmap2Bytes(bitmap));
+
 		socialShareUi.showShareMenu(this, picContent,
 				Utility.SHARE_THEME_STYLE, new ShareListener() {
-
-					@Override
-					public void onApiComplete(String responses) {
-						final String msg = responses;
-						// TODO Auto-generated method stub
-						handler.post(new Runnable() {
-							@Override
-							public void run() {
-								Utility.showAlert(RecDetailsActivity.this, msg);
-							}
-
-						});
-					}
-
 					@Override
 					public void onAuthComplete(Bundle values) {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
-					public void onError(BaiduShareException arg0) {
-						// TODO Auto-generated method stub
+					public void onApiComplete(String responses) {
+                        // TODO Auto-generated method stub
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Utility.showAlert(RecDetailsActivity.this, "分享成功");
+                            }
+                        });
+					}
 
+					@Override
+					public void onError(BaiduShareException e) {
+ 
+                        // TODO Auto-generated method stub
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Utility.showAlert(RecDetailsActivity.this, "分享失败");
+                            }
+                        });
 					}
 
 				});
 	}
+	//把Bitmap 转成 Byte 
+		public static byte[] Bitmap2Bytes(Bitmap bm) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+			return baos.toByteArray();
+		}
+		
 }
