@@ -233,10 +233,8 @@ public class WeatherActivity extends ActivityOfAF4Ad {
 		private double lng;
 		@Override
 		protected Date[] doInBackground(Void... params) {
-//			lat = LatLngReceiver.getLat();
-//			lng = LatLngReceiver.getLng();
-			lat = 26.0833;
-			lng = 119.3000;
+			lat = LatLngReceiver.getLat();
+			lng = LatLngReceiver.getLng();
 			Date now = new Date();
 			Date[] riseSet = new Date[2];
 			SunriseSunset sunriseSunset = new SunriseSunset(lat, lng, now, 0);

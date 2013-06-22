@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import BaiduSocialShare.BaiduSocialShareConfig;
 import android.R.integer;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -45,6 +44,7 @@ import domain.businessEntity.gps.ClimbData;
 import domain.businessService.gps.ClimbDataService;
 import domain.businessService.gps.IClimbDataService;
 
+import socialShare.SocialShareConfig;
 import tool.data.ClimbDataUtil;
 import ui.activity.ActivityOfAF4Ad;
 import ui.activity.GoogleMap.GMapActivity;
@@ -100,7 +100,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	/**********************社会化分享组件定义***********************************/
 	private BaiduSocialShare socialShare;
 	private BaiduSocialShareUserInterface socialShareUi;
-	private final static String appKey = BaiduSocialShareConfig.mbApiKey;
+	private final static String appKey = SocialShareConfig.mbApiKey;
 	private ShareContent picContent;
 	private final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -197,29 +197,6 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 			}
 		});
 
-	}
-	public void showUi(){
-		socialShareUi.showShareMenu(this, picContent, Utility.SHARE_THEME_STYLE, new ShareListener(){
-
-			@Override
-			public void onApiComplete(String arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onAuthComplete(Bundle arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onError(BaiduShareException arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
 	}
 	class BackToRecord implements OnClickListener {
 
