@@ -15,10 +15,11 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>    
-<style name="notitle">
-<item name="android:windowNoTitle">true</item> 
-</style>
+    </style>  
+      
+    <style name="notitle">
+	<item name="android:windowNoTitle">true</item> 
+	</style>
     <style name="main_tab_bottom">
         <item name="android:textSize">@dimen/bottom_tab_font_size</item>
         <item name="android:textColor">#ffffffff</item>
