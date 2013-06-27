@@ -101,6 +101,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	private BaiduSocialShare socialShare;
 	private BaiduSocialShareUserInterface socialShareUi;
 	private final static String appKey = SocialShareConfig.mbApiKey;
+	private final static String wxAppKey = SocialShareConfig.wxApp;
 	private ShareContent picContent;
 	private final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -112,6 +113,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		//初始化社会化主件
 		socialShare = BaiduSocialShare.getInstance(this, appKey);
 		//socialShare.supportWeiBoSso(BaiduSocialShareConfig.SINA_SSO_APP_KEY);
+		socialShare.supportWeixin(wxAppKey);
 		socialShareUi = socialShare.getSocialShareUserInterfaceInstance();
 		SocialShareLogger.on();
 	}

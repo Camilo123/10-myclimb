@@ -9,4 +9,6 @@ public class SocialShareConfig {
 
 
 	public static final String QQ_SSO_APP_KEY = "100358052";
+	
+	public static final String wxApp = "wxa2f5dc38baa66b9d";
 }
