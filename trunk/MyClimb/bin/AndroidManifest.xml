@@ -86,7 +86,7 @@
             </intent-filter>
         </receiver>
         <receiver android:name="ui.activity.weather.LatLngReceiver" >
-            <intent-filter android:priority="1000" >
+            <intent-filter >
                 <action android:name="LatLng" />
             </intent-filter>
         </receiver>

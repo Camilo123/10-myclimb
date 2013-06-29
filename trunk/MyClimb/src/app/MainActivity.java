@@ -42,8 +42,8 @@ public class MainActivity extends TabActivity  implements OnCheckedChangeListene
         		.setContent(new Intent(this,ui.activity.GoogleMap.GMapActivity.class)));
 		tabHost.addTab(tabHost.newTabSpec("TAB_WEATHER").setIndicator("TAB_WEATHER")
         		.setContent(new Intent(this,ui.activity.weather.WeatherActivity.class))); 
-		tabHost.addTab(tabHost.newTabSpec("TAB_TERRAIN").setIndicator("TAB_TERRAIN")
-        		.setContent(new Intent(this,ui.activity.GoogleMap.GoogleMapActivity.class))); 
+//		tabHost.addTab(tabHost.newTabSpec("TAB_TERRAIN").setIndicator("TAB_TERRAIN")
+//        		.setContent(new Intent(this,ui.activity.GoogleMap.GoogleMapActivity.class))); 
 		
         radioderGroup = (RadioGroup) findViewById(R.id.main_radio);
 		radioderGroup.setOnCheckedChangeListener(this);

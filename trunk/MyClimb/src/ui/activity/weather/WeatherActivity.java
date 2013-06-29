@@ -42,7 +42,13 @@ public class WeatherActivity extends ActivityOfAF4Ad {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_weather);
-
+		SunriseAndSetAsyncTask calculate = new SunriseAndSetAsyncTask();
+		
+		
+		
+		RequireWeatherAsyncTask require = new RequireWeatherAsyncTask();
+		require.execute();
+		calculate.execute();
 	}
     
 	@Override
@@ -68,12 +74,9 @@ public class WeatherActivity extends ActivityOfAF4Ad {
 
 		today_sunrisetime = (TextView) findViewById(R.id.today_sunrisetime);
 		today_sunsettime = (TextView) findViewById(R.id.today_sunsettime);
-
-		RequireWeatherAsyncTask require = new RequireWeatherAsyncTask();
-		require.execute();
-		SunriseAndSetAsyncTask calculate = new SunriseAndSetAsyncTask();
-	
-		calculate.execute();
+		
+		
+		
 
 	}
 
