@@ -18,7 +18,7 @@
     <string name="map">地图</string>
      <string name="map_not_ready">地图初始化失败</string>
     <string name="weather">天气</string>
-    <string name="terrain">地形</string>
+    <string name="community">社区</string>
 
     <string-array name="cities">
         <item> 北京 </item>

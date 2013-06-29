@@ -288,6 +288,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 			speed = newLocation.getSpeed();
 			currentLat = lat = newLocation.getLatitude();
 			currentLon = lon = newLocation.getLongitude();
+			sendBroadcastToWeather();
 			tv_altitude.setText(Integer.toString(altitude));
 			tv_speed.setText(Float.toString(speed));
 			tv_latitude.setText(Double.toString(lat));
@@ -364,7 +365,7 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 	protected void onPause() {
 		// 程序暂停时注销监听器
 		mSensorManager.unregisterListener(mSersorEventListener);
-		sendBroadcastToWeather();
+		
 		super.onStop();
 	}
 	

@@ -31,6 +31,7 @@ public class GeocodeService {
 			String sCurrentLine = "";
 			while ((sCurrentLine = bufferedReader.readLine()) != null) {
 				sTotalString.append(sCurrentLine);
+				System.out.println();
 			}
 			//System.out.println(sTotalString);
 			bufferedReader.close();

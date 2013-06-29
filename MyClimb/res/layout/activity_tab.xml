@@ -20,6 +20,7 @@
             <RadioButton
                 android:id="@+id/radio_button0"
                 style="@style/main_tab_bottom"
+                android:layout_marginTop="2.0dip"
                 android:layout_height="match_parent"
                 android:gravity="center"      
                 android:drawableLeft="@drawable/gps"
@@ -30,6 +31,7 @@
             <RadioButton
                 android:id="@+id/radio_button1"
                 style="@style/main_tab_bottom"
+                android:layout_marginTop="2.0dip"
                 android:layout_height="match_parent"
                 android:gravity="center"  
                 android:drawableLeft="@drawable/map"
@@ -40,6 +42,7 @@
             <RadioButton
                 android:id="@+id/radio_button2"
                 style="@style/main_tab_bottom"
+                android:layout_marginTop="2.0dip"
                 android:layout_height="match_parent"
                 android:gravity="center"  
                 android:drawableLeft="@drawable/weather"
@@ -50,11 +53,12 @@
             <RadioButton
                 android:id="@+id/radio_button3"
                 style="@style/main_tab_bottom"
+                android:layout_marginTop="2.0dip"
                 android:layout_height="match_parent"
-                android:gravity="center"  
-                android:drawableLeft="@drawable/terrain"
+                android:gravity="center" 
+                android:drawableLeft="@drawable/community"
                 android:tag="radio_button3"
-                android:text="@string/terrain"
+                android:text="@string/community"
                 android:textSize="17sp" />
         </RadioGroup>
 
