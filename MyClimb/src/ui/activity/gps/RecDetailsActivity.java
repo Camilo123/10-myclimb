@@ -6,10 +6,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.R.integer;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,9 +32,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +50,11 @@ import com.baidu.sharesdk.Utility;
 import com.baidu.sharesdk.ui.BaiduSocialShareUserInterface;
 import com.mysport.ui.R;
 
-
 import domain.businessEntity.gps.ClimbData;
 import domain.businessService.gps.ClimbDataService;
 import domain.businessService.gps.IClimbDataService;
+import domain.businessService.gps.ILatLngDataService;
+import domain.businessService.gps.LatLngDataService;
 
 import socialShare.SocialShareConfig;
 import tool.data.ClimbDataUtil;
@@ -56,6 +68,7 @@ import ui.viewModel.gps.RecDetailViewModel;
 public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		OnTouchListener, OnGestureListener {
 	private IClimbDataService dateService;
+	private ILatLngDataService latLngService;
 	// 记录名
 	private TextView tv_Name = null;
 	// 当前日期
@@ -97,7 +110,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 
 	private ImageView iv_share;
 
-	/**********************社会化分享组件定义***********************************/
+	/********************** 社会化分享组件定义 ***********************************/
 	private BaiduSocialShare socialShare;
 	private BaiduSocialShareUserInterface socialShareUi;
 	private final static String appKey = SocialShareConfig.mbApiKey;
@@ -106,13 +119,21 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	private final Handler handler = new Handler(Looper.getMainLooper());
 
 	/*******************************************************************/
+	/*********************** 图表 *****************************************/
+	private XYMultipleSeriesDataset ds;
+	private XYMultipleSeriesRenderer render;
+	private XYSeries series;
+	private GraphicalView gv;
+	private XYSeriesRenderer xyRender;
+
+	/*******************************************************************/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_details);
-		//初始化社会化主件
+		// 初始化社会化主件
 		socialShare = BaiduSocialShare.getInstance(this, appKey);
-		//socialShare.supportWeiBoSso(BaiduSocialShareConfig.SINA_SSO_APP_KEY);
+		// socialShare.supportWeiBoSso(BaiduSocialShareConfig.SINA_SSO_APP_KEY);
 		socialShare.supportWeixin(wxAppKey);
 		socialShareUi = socialShare.getSocialShareUserInterfaceInstance();
 		SocialShareLogger.on();
@@ -126,13 +147,84 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	}
 
 	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable("dataset", ds);
+		outState.putSerializable("renderer", render);
+		outState.putSerializable("current_series", series);
+		outState.putSerializable("current_renderer", xyRender);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedState) {
+		super.onRestoreInstanceState(savedState);
+		ds = (XYMultipleSeriesDataset) savedState.getSerializable("dataset");
+		render = (XYMultipleSeriesRenderer) savedState
+				.getSerializable("renderer");
+		series = (XYSeries) savedState.getSerializable("current_series");
+		xyRender = (XYSeriesRenderer) savedState
+				.getSerializable("current_renderer");
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (ds == null)
+			getDataset();
+		if (render == null)
+			getRenderer();
+		if (gv == null) {
+			LinearLayout layout = (LinearLayout) findViewById(R.id.chart);
+			gv = ChartFactory.getLineChartView(this, ds, render);
+			layout.addView(gv, new LayoutParams(LayoutParams.FILL_PARENT,
+					LayoutParams.FILL_PARENT));
+		} else {
+			// 绘制图形
+			gv.repaint();
+		}
+	}
+	private XYMultipleSeriesDataset getDataset() {
+        ds = new XYMultipleSeriesDataset();
+        // 新建一个系列（线条）
+        series = new XYSeries("高度走势");
+        series.add(10,30);
+        series.add(20,50);
+        series.add(30,71);
+        series.add(40,85);
+        series.add(50,90);
+          // 把添加了点的折线放入dataset
+        ds.addSeries(series);
+        
+        return ds;
+     }
+    public XYMultipleSeriesRenderer getRenderer() {
+    // 新建一个xymultipleseries
+        render = new XYMultipleSeriesRenderer();
+        render.setAxisTitleTextSize(16); // 设置坐标轴标题文本大小
+        render.setChartTitleTextSize(20); // 设置图表标题文本大小
+        render.setLabelsTextSize(15); // 设置轴标签文本大小
+        render.setLegendTextSize(15); // 设置图例文本大小
+        render.setMargins(new int[] {20, 30, 15,0}); // 设置4边留白
+        render.setPanEnabled(false, false); // 设置x,y坐标轴不会因用户划动屏幕而移动
+        // 设置4边留白透明
+        render.setMarginsColor(Color.argb(0,0xff, 0, 0)); 
+        render.setBackgroundColor(Color.TRANSPARENT); // 设置背景色透明
+        render.setApplyBackgroundColor(true); // 使背景色生效
+        render.setXTitle("持续时间");
+        render.setYTitle("海拔高度");
+        // 设置一个系列的颜色为蓝色
+        xyRender = new XYSeriesRenderer();
+        xyRender.setColor(Color.BLUE);
+        // 往xymultiplerender中增加一个系列
+        render.addSeriesRenderer(xyRender);
+        return render;
+      }
+	@Override
 	protected void initControlsAndRegEvent() {
 		tv_Date = (TextView) findViewById(R.id.tv_Date);
 		tv_startTime = (TextView) findViewById(R.id.tv_startTime);
 		tv_stopTime = (TextView) findViewById(R.id.tv_stopTime);
 		tv_altitudeDiff = (TextView) findViewById(R.id.tv_altitudeDiff);
-		tv_lat = (TextView) findViewById(R.id.tv_lat);
-		tv_lon = (TextView) findViewById(R.id.tv_lon);
 		tv_Name = (TextView) findViewById(R.id.tv_recName);
 		iv_back = (ImageView) findViewById(R.id.iv_back);
 		iv_delete = (ImageView) findViewById(R.id.iv_delete);
@@ -144,6 +236,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		detailLayout.setOnTouchListener(this);
 		detailLayout.setLongClickable(true);
 		dateService = new ClimbDataService();
+		latLngService = new LatLngDataService();
 
 		Intent intent = getIntent();
 		ClimbData climbdata;
@@ -157,18 +250,20 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 			throw new RuntimeException("查看信息出错");
 		}
 		showActivity(climbdata);
-		
-		//设置分享内容
-				picContent = new ShareContent();
-				picContent.setContent("MyClimb:我刚刚登上了"+climbdata.getClimbName()+"!"+"这是我的行程记录");
-				picContent.setTitle("MyClimb");
-				picContent.setUrl("http://weibo.com/lovelss310");
+
+		// 设置分享内容
+		picContent = new ShareContent();
+		picContent.setContent("MyClimb:我刚刚登上了" + climbdata.getClimbName() + "!"
+				+ "这是我的行程记录");
+		picContent.setTitle("MyClimb");
+		picContent.setUrl("http://weibo.com/lovelss310");
 		// 设置删除键监听事件
 		iv_delete.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				dateService.deleteCilmbDataByID(id);
+				latLngService.deleteByDate(strTime);
 				Intent intent = new Intent(RecDetailsActivity.this,
 						RecordActivity.class);
 				startActivity(intent);
@@ -189,17 +284,18 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 				startActivity(intent);
 			}
 		});
-		
-		//分享按钮监听事件
+
+		// 分享按钮监听事件
 		iv_share.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				printscreen_share();
-				
+
 			}
 		});
 
 	}
+
 	class BackToRecord implements OnClickListener {
 
 		@Override
@@ -225,9 +321,9 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 			Double latitude = climbdata.getLatitude();
 			lat = longitude;
 			lon = latitude;
-			tv_lat.setText(longitude.toString());
-
-			tv_lon.setText(latitude.toString());
+			// tv_lat.setText(longitude.toString());
+			//
+			// tv_lon.setText(latitude.toString());
 			Date startTime = climbdata.getStartTime();
 			Date stopTime = climbdata.getStopTime();
 			tv_Date.setText(DateFormat.getDateInstance().format(startTime));
@@ -274,16 +370,12 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		return false;
 	}
 
-
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		// TODO Auto-generated method stub
 		if (e2.getX() - e1.getX() > verticalMinDistance
 				&& Math.abs(velocityX) > minVelocity && (--id) >= 1) {
-			Toast toast = Toast.makeText(RecDetailsActivity.this, id + "",
-					Toast.LENGTH_SHORT);
-			toast.show();
 			Animation translateAnimationoOut = AnimationUtils.loadAnimation(
 					detailLayout.getContext(), R.anim.out_to_right);
 			detailLayout.startAnimation(translateAnimationoOut);
@@ -343,7 +435,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		return mGestureDetector.onTouchEvent(event);
 	}
 
-	/***************截屏分享**************/
+	/*************** 截屏分享 **************/
 	public void printscreen_share() {
 		View view1 = getWindow().getDecorView();
 		Display display = getWindowManager().getDefaultDisplay();
@@ -362,34 +454,36 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 
 					@Override
 					public void onApiComplete(String responses) {
-                        // TODO Auto-generated method stub
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Utility.showAlert(RecDetailsActivity.this, "分享成功");
-                            }
-                        });
+						// TODO Auto-generated method stub
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								Utility.showAlert(RecDetailsActivity.this,
+										"分享成功");
+							}
+						});
 					}
 
 					@Override
 					public void onError(BaiduShareException e) {
- 
-                        // TODO Auto-generated method stub
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Utility.showAlert(RecDetailsActivity.this, "分享失败");
-                            }
-                        });
+
+						handler.post(new Runnable() {
+							@Override
+							public void run() {
+								Utility.showAlert(RecDetailsActivity.this,
+										"分享失败");
+							}
+						});
 					}
 
 				});
 	}
-	//把Bitmap 转成 Byte 
-		public static byte[] Bitmap2Bytes(Bitmap bm) {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-			return baos.toByteArray();
-		}
-		
+
+	// 把Bitmap 转成 Byte
+	public static byte[] Bitmap2Bytes(Bitmap bm) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		return baos.toByteArray();
+	}
+
 }

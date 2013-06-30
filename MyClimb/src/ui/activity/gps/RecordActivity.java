@@ -79,7 +79,7 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 		
 		
 		SimpleAdapter adapter = new SimpleAdapter(this, data, 
-				R.layout.activity_reclist2, new String[] {"id","name","date"}, new int[]{R.id.recId3,R.id.recName3,R.id.recDate3});
+				R.layout.activity_reclist2, new String[] {"name","date"}, new int[]{R.id.recName3,R.id.recDate3});
 		recList.setAdapter(adapter);
 	}
 	
@@ -92,22 +92,6 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 	
 	@Override
 	protected void initControlsAndRegEvent() {
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 
 	}
 
@@ -120,7 +104,7 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 			for(;i<len;i++)
 			{
 				Map<String,String> map=new HashMap<String, String>();
-				map.put("id",climbData.get(i).getClimbID()+"");
+				//map.put("id",climbData.get(i).getClimbID()+"");
 				map.put("name", climbData.get(i).getClimbName());
 				Date date=climbData.get(i).getStartTime();
 				map.put("date", DateFormat.getDateInstance().format(date));
@@ -204,5 +188,7 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 		// TODO Auto-generated method stub
 		return mGestureDetector.onTouchEvent(event);  
 	}
+
+	
 
 }
