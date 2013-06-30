@@ -52,6 +52,8 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_record);
 		dateService=new ClimbDataService();
@@ -83,11 +85,19 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 		recList.setAdapter(adapter);
 	}
 	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_record, menu);
 		return true;
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		this.finish();
 	}
 	
 	@Override
@@ -188,7 +198,7 @@ public class RecordActivity extends ActivityOfAF4Ad implements  OnTouchListener,
 		// TODO Auto-generated method stub
 		return mGestureDetector.onTouchEvent(event);  
 	}
-
+	
 	
 
 }
