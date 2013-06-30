@@ -129,6 +129,7 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	/*******************************************************************/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_details);
 		// 初始化社会化主件
@@ -229,7 +230,8 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		iv_back = (ImageView) findViewById(R.id.iv_back);
 		iv_delete = (ImageView) findViewById(R.id.iv_delete);
 		iv_location = (ImageView) findViewById(R.id.iv_loc);
-		iv_back.setOnClickListener(new BackToRecord());
+		//iv_back.setOnClickListener(new BackToRecord());
+	
 		iv_share = (ImageView) findViewById(R.id.iv_share);
 		mGestureDetector = new GestureDetector((OnGestureListener) this);
 		detailLayout = (RelativeLayout) findViewById(R.id.detail_layout);
@@ -267,7 +269,8 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 				Intent intent = new Intent(RecDetailsActivity.this,
 						RecordActivity.class);
 				startActivity(intent);
-
+				RecDetailsActivity.this.finish();
+				
 			}
 		});
 		// 设置定位键监听事件
@@ -285,6 +288,17 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 			}
 		});
 
+		iv_back.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				  Intent intent = new Intent();
+				  intent.setClass(RecDetailsActivity.this, RecordActivity.class);
+				  RecDetailsActivity.this.startActivity(intent);
+				  
+				  RecDetailsActivity.this.finish();
+
+			}
+		});
 		// 分享按钮监听事件
 		iv_share.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -297,16 +311,15 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 	}
 
 	class BackToRecord implements OnClickListener {
-
+		
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			/*
-			 * Intent intent = new Intent();
-			 * intent.setClass(RecDetailsActivity.this, RecordActivity.class);
-			 * RecDetailsActivity.this.startActivity(intent);
-			 */
-			finish();
+			
+//			  Intent intent = new Intent();
+//			  intent.setClass(RecDetailsActivity.this, RecordActivity.class);
+//			  RecDetailsActivity.this.startActivity(intent);
+			  
 			overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
 		}
 
@@ -486,4 +499,17 @@ public class RecDetailsActivity extends ActivityOfAF4Ad implements
 		return baos.toByteArray();
 	}
 
+	
+	@Override  
+    public boolean onKeyDown(int keyCode, KeyEvent event)  
+    {  
+        if (keyCode == KeyEvent.KEYCODE_BACK )  
+        {  
+        	
+        	Intent intent = new Intent(this, RecordActivity.class);  
+            startActivity(intent);
+            this.finish();
+        }
+		return true; 
+    }
 }
