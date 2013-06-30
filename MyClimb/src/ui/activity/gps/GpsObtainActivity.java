@@ -1,5 +1,6 @@
 package ui.activity.gps;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -286,11 +287,15 @@ public class GpsObtainActivity extends ActivityOfAF4Ad implements
 		if (newLocation != null) {
 			currentAltitude = altitude = (int) newLocation.getAltitude();
 			speed = newLocation.getSpeed();
+			
+
 			currentLat = lat = newLocation.getLatitude();
 			currentLon = lon = newLocation.getLongitude();
 			sendBroadcastToWeather();
 			tv_altitude.setText(Integer.toString(altitude));
-			tv_speed.setText(Float.toString(speed));
+			
+			tv_speed.setText(new DecimalFormat("#0.0").format(speed));
+			
 			tv_latitude.setText(Double.toString(lat));
 			tv_longitude.setText(Double.toString(lon));
 		} else {
