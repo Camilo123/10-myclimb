@@ -16,7 +16,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="36dp"
-            android:text="TextView"
+            android:text=""
             android:textColor="@color/chartreuse"
             android:visibility="visible" />
 

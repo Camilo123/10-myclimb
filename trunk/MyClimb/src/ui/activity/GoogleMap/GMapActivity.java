@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -110,6 +111,8 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
         
         setRecRoute();
         initPopupWindow();
+       
+        
     }
     
     public void initPopupWindow(){
@@ -215,6 +218,12 @@ implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener{
 			dataList = latLngDataService.getLatLngDataByTime(strTime);
 			
 	    	Iterator<LatLngData> it = dataList.iterator();
+	    	if(!it.hasNext()){
+	    		Toast toast = Toast.makeText(this, "当前记录无轨迹！", Toast.LENGTH_SHORT);
+	    		toast.show();
+	    		return;
+	    	}
+	    	 
 	    	PolylineOptions RecOptions = new PolylineOptions();
 	    	
 	    	 mMap.addMarker(new MarkerOptions()
