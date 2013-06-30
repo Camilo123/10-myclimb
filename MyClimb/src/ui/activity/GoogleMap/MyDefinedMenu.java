@@ -55,7 +55,8 @@ public class MyDefinedMenu extends PopupWindow {
 		gv_title.setLayoutParams(new LayoutParams(
 				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 		gv_title.setNumColumns(titles.size());	 
-		gv_title.setBackgroundColor(Color.WHITE);
+		//gv_title.setBackgroundColor(Color.WHITE);
+		gv_title.setBackgroundColor(Color.GRAY);
 		
 		bodyAdapter = new BodyAdatper[item_names.size()];	 
 		for (int i = 0; i < item_names.size(); i++) {
@@ -63,12 +64,13 @@ public class MyDefinedMenu extends PopupWindow {
 		}
 		gv_body = new GridView(context);
 		gv_body.setNumColumns(4);	 
-		gv_body.setBackgroundColor(Color.TRANSPARENT);
+		//设置背景为半透明
+		//gv_body.setBackgroundColor(Color.TRANSPARENT);
+		gv_body.setBackgroundColor(Color.WHITE);
 		gv_body.setAdapter(bodyAdapter[0]);	 
 		
 		gv_title.setOnItemClickListener(new OnItemClickListener() {
 
-			
 			
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
